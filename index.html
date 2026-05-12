@@ -1009,6 +1009,215 @@ main { padding-top: 48px; }
   </div>
 </div>
 
+
+    <div class="h2"><span class="num">3.8</span>End-to-end data flow — how all seven features connect</div>
+    <p class="body">This diagram shows the complete flow from raw data inputs through demand planning and PO calculation to final execution on Unicommerce. Every feature described above maps to a node in this flow.</p>
+
+    <div style="background:var(--paper-2);border:1px solid var(--rule);padding:32px 32px 24px;margin:16px 0;overflow-x:auto">
+
+      <!-- LEGEND -->
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--rule)">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;border:1px solid var(--rule);background:var(--paper)"></span>Data source</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;border:2px dashed #C0392B;background:var(--paper)"></span>Manual input (current risk)</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;background:#FFF3D6;border:1px solid #D4A017"></span>System check / alert</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;background:var(--ink)"></span>Processing / computation</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><span style="display:inline-block;width:12px;height:12px;background:var(--accent-soft);border:1px solid var(--accent)"></span>Output</div>
+      </div>
+
+      <!-- ROW 1: DATA SOURCES -->
+      <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;text-align:right">Data sources</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:8px">
+
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px">Unicommerce (WMS)</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">Closing inventory per WH location &amp; marketplace FC<br>Historical actuals</div>
+          <div style="margin-top:8px"><span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--ok);color:var(--paper);letter-spacing:.06em">Auto-pull · Daily</span></div>
+        </div>
+
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px">Growth Team</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">Secondary demand forecast<br>Per SKU × 12 channels × 4 months (M1–M4)</div>
+          <div style="margin-top:8px"><span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--muted);color:var(--paper);letter-spacing:.06em">Manual · Monthly cycle</span></div>
+        </div>
+
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px">Finance Team</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">AOP monthly GMV targets per channel<br>Annual upload, mid-year flex</div>
+          <div style="margin-top:8px"><span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--accent);color:var(--paper);letter-spacing:.06em">Upload · Annual</span></div>
+        </div>
+
+        <div style="background:var(--paper);border:2px dashed var(--warn);padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--warn);margin-bottom:5px">SCM Team (Manual)</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">Open PO · GRN Pending<br>In-Transit (MP + WH)</div>
+          <div style="font-size:10px;color:var(--warn);margin-top:5px">Highest data risk — should be automated</div>
+          <div style="margin-top:8px"><span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--warn);color:var(--paper);letter-spacing:.06em">Manual · Per cycle</span></div>
+        </div>
+      </div>
+
+      <!-- ARROW DOWN -->
+      <div style="text-align:center;padding:6px 0"><span style="font-size:16px;color:var(--muted-2)">▼</span><div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)">Inputs</div></div>
+
+      <!-- ROW 2: PRE-SUBMIT CHECKS -->
+      <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;text-align:right">Pre-submit checks</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px">
+
+        <div style="background:#FFFBEF;border:1px solid #D4A017;padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px">Check 1 — Demand Drop / Spike Alert</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px">Compare current demand entry vs M-1, M-2, M-3 prior submissions per SKU per channel. If |Variance %| &gt; Threshold → Growth team must submit written justification before proceeding.</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:#D4A017;color:var(--paper);letter-spacing:.06em">Threshold % — Open Query</span>
+        </div>
+
+        <div style="background:#FFFBEF;border:1px solid #D4A017;padding:14px 14px 12px">
+          <div style="font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px">Check 2 — AOP Validation</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px">Sum of demand GMV (Units × MRP) across all channels vs Finance AOP monthly target. Flag if material deviation. Demand cannot be submitted until acknowledged.</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--ok);color:var(--paper);letter-spacing:.06em">Real-time gate</span>
+        </div>
+      </div>
+
+      <div style="background:#FFFBEF;border:1px solid #D4A017;padding:10px 14px;margin-bottom:4px;font-size:11px;color:var(--muted)">
+        <strong style="color:var(--ink-2)">Justification required?</strong> → Growth team adds context (e.g. "Sale event", "Campaign drop", "MRP change") → Submission locked → Version stamped
+      </div>
+
+      <!-- ARROW DOWN -->
+      <div style="text-align:center;padding:6px 0"><span style="font-size:16px;color:var(--muted-2)">▼</span><div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)">Submission locked</div></div>
+
+      <!-- ROW 3: DEMAND PLANNING + SIDE OUTPUTS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 280px;gap:10px;margin-bottom:4px;align-items:start">
+
+        <div style="background:var(--ink);padding:16px 14px 14px">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:10px">Primary Demand Derivation</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:5px;font-weight:500">Marketplace (10 channels):</div>
+          <div style="font-family:var(--f-mono);font-size:10px;color:#7EC8E3;line-height:1.75;margin-bottom:10px">Primary = Target Closing (45-day secondary)<br>− Closing Stock + M0 Actual</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:5px;font-weight:500">Website + Offline (2 channels):</div>
+          <div style="font-family:var(--f-mono);font-size:10px;color:#7EC8E3;line-height:1.75;margin-bottom:12px">Primary = Secondary (no buffer layer)</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--ok);color:var(--paper);letter-spacing:.06em">Auto-computed</span>
+        </div>
+
+        <div style="background:var(--ink);padding:16px 14px 14px">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:10px">ABC × XYZ Classification</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:8px">ABC = revenue contribution (A=High)<br>XYZ = forecast variance (X=High)<br>9 buckets per SKU — drives monitoring intensity and alert thresholds</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:#D4A017;color:var(--paper);letter-spacing:.06em">Monthly refresh</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:2px">Side outputs</div>
+          <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:10px 12px">
+            <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:3px">Variance Dashboard</div>
+            <div style="font-size:10px;color:var(--muted)">M-1 / M-2 / M-3 comparison → Analytics team</div>
+          </div>
+          <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:10px 12px">
+            <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:3px">ABC × XYZ Report</div>
+            <div style="font-size:10px;color:var(--muted)">Per SKU classification → Analytics, SCM</div>
+          </div>
+          <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:10px 12px">
+            <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:3px">AOP vs Demand Report</div>
+            <div style="font-size:10px;color:var(--muted)">Channel GMV gap → Analytics, Finance</div>
+          </div>
+          <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:10px 12px">
+            <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:3px">Demand Audit Log</div>
+            <div style="font-size:10px;color:var(--muted)">Versioned, timestamped, justifications stored</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW DOWN -->
+      <div style="text-align:center;padding:6px 0"><span style="font-size:16px;color:var(--muted-2)">▼</span><div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)">Primary demand → PO engine</div></div>
+
+      <!-- ROW 4: PO CALCULATION -->
+      <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;text-align:right">Step 02 · PO Calculation</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px">
+
+        <div style="background:var(--ink);padding:16px 14px 14px">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:8px">M1 PO</div>
+          <div style="font-family:var(--f-mono);font-size:10px;color:#7EC8E3;line-height:1.8">Target Closing<br>− Closing Inv<br>− In-Transit<br>− GRN Pending<br>− Open PO<br>+ SNOP→PO consumption</div>
+          <div style="margin-top:10px"><span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--warn);color:var(--paper);letter-spacing:.06em">Should be ≈ 0</span></div>
+        </div>
+
+        <div style="background:var(--ink);padding:16px 14px 14px">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:8px">M2 PO</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:8px">Same as M1 formula<br>− M1 PO (committed)</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:#D4A017;color:var(--paper);letter-spacing:.06em">Primary bucket</span>
+        </div>
+
+        <div style="background:var(--ink);padding:16px 14px 14px">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:8px">M3 PO</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:8px">Same as M1 formula<br>− M1 PO − M2 PO (committed)</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--ok);color:var(--paper);letter-spacing:.06em">Forward planning</span>
+        </div>
+      </div>
+
+      <!-- ARROW DOWN -->
+      <div style="text-align:center;padding:6px 0"><span style="font-size:16px;color:var(--muted-2)">▼</span><div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)">System generates PO draft</div></div>
+
+      <!-- ROW 5: APPROVAL FLOW -->
+      <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;text-align:right">Approval flow</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:10px">
+        <div style="background:#FFFBEF;border:1px solid #D4A017;padding:14px 10px;text-align:center">
+          <div style="font-size:12px;font-weight:600;color:#D4A017;margin-bottom:5px">System</div>
+          <div style="font-size:10px;color:var(--muted);line-height:1.5">Computes PO + deviation alert if qty outside threshold</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted-2)">›</div>
+        <div style="background:var(--paper);border:1px solid var(--rule);padding:14px 10px;text-align:center">
+          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:5px">SCM Team</div>
+          <div style="font-size:10px;color:var(--muted);line-height:1.5">Reviews computed quantities. Checks capacity &amp; budget.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted-2)">›</div>
+        <div style="background:#FFFBEF;border:1px solid #D4A017;padding:14px 10px;text-align:center">
+          <div style="font-size:12px;font-weight:600;color:#D4A017;margin-bottom:5px">Analytics</div>
+          <div style="font-size:10px;color:var(--muted);line-height:1.5">Flags deviations. Escalates if needed.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 32px 1fr;gap:0;margin-bottom:4px">
+        <div style="background:var(--ink);padding:14px;text-align:center">
+          <div style="font-size:12px;font-weight:600;color:var(--paper);margin-bottom:4px">SCM Approves</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5)">1-click approval. Timestamp + approver logged.</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted-2)">›</div>
+        <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:14px;text-align:center">
+          <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:4px">Unicommerce</div>
+          <div style="font-size:10px;color:var(--muted)">PO raised automatically. Manufacturer notified.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--paper-3);border-left:2px solid #D4A017;padding:10px 14px;margin-top:8px;font-size:11px;color:var(--muted)">
+        <strong style="color:var(--ink-2)">Open query:</strong> Approval surface TBD — in-platform, Slack, or email? SLA for response and escalation path also to be confirmed.
+      </div>
+
+      <!-- ARROW DOWN -->
+      <div style="text-align:center;padding:6px 0"><span style="font-size:16px;color:var(--muted-2)">▼</span><div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)">Final outputs</div></div>
+
+      <!-- ROW 6: OUTPUTS -->
+      <div style="font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;text-align:right">Outputs</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+
+        <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:14px">
+          <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:5px">PO on Unicommerce</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px">M1/M2/M3 quantities per SKU per manufacturer raised as formal PO on Unicommerce WMS</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--accent);color:var(--paper);letter-spacing:.06em">Execution</span>
+        </div>
+
+        <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:14px">
+          <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:5px">DOH Tracker</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px">Days on Hand per SKU at time of PO raise. Stockout risk flag if DOH &lt; threshold.</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--ok);color:var(--paper);letter-spacing:.06em">SCM Monitoring</span>
+        </div>
+
+        <div style="background:var(--accent-soft);border:1px solid var(--accent);padding:14px">
+          <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:5px">PO Audit Record</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:8px">Versioned record with computed qty, approver, timestamp, and any deviation notes</div>
+          <span style="font-family:var(--f-mono);font-size:9px;padding:2px 7px;background:var(--muted);color:var(--paper);letter-spacing:.06em">Compliance</span>
+        </div>
+      </div>
+
+      <!-- FOOTER NOTE -->
+      <div style="margin-top:16px;padding:10px 14px;background:var(--paper);border:1px solid var(--rule);border-left:2px solid #D4A017;font-size:11px;color:var(--muted)">
+        <strong style="color:var(--ink-2);font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase">Nodes marked with open queries</strong><br>
+        See Part 5 of this document for all 10 pending questions to confirm with the Foxtale team before finalising the data model.
+      </div>
+
+    </div>
+
+
 <!-- ══════════════════════════════════════════
      PART 4 — HOW IT WORKS
 ══════════════════════════════════════════ -->
