@@ -3,999 +3,1156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Foxtale × DevX · SCM Intelligence Platform — Point of View</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Foxtale × DevX Labs — SCM Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ink:#0E0D0B;
-  --ink2:#2E2C28;
-  --ink3:#5C5A55;
-  --ink4:#9B9892;
-  --canvas:#F6F3EE;
-  --surface:#FDFCF9;
-  --rule:#E2DDD4;
-  --rule2:#CBC7BC;
-  --gold:#B8943E;
-  --gold-l:#F5EDD8;
-  --gold-d:#8A6E2A;
-  --teal:#2D6B5A;
-  --teal-l:#DAF0E8;
-  --red:#8B2E2E;
-  --red-l:#F7E8E8;
-  --amber:#7A5200;
-  --amber-l:#FFF3D6;
-  --font-d:'Playfair Display',Georgia,serif;
-  --font-b:'DM Sans',system-ui,sans-serif;
-  --font-m:'DM Mono','Courier New',monospace;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-b);background:var(--canvas);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.7}
-
-/* ── NAV ───────────────────────────────────────────────────── */
-.topnav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(246,243,238,.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--rule);
-  display:flex;align-items:center;
-  padding:0 40px;height:52px;
-  gap:0;
-}
-.nav-brand{
-  font-family:var(--font-d);
-  font-size:14px;font-weight:500;
-  color:var(--ink);
-  margin-right:32px;
-  white-space:nowrap;
-  letter-spacing:-.01em;
-}
-.nav-brand span{color:var(--gold-d);font-style:italic}
-.nav-tabs{display:flex;gap:0;flex:1;overflow-x:auto}
-.nav-tab{
-  font-size:12px;font-weight:500;
-  color:var(--ink4);
-  padding:0 16px;height:52px;
-  display:flex;align-items:center;
-  cursor:pointer;
-  border-bottom:2px solid transparent;
-  white-space:nowrap;
-  transition:all .15s;
-  text-decoration:none;
-}
-.nav-tab:hover{color:var(--ink)}
-.nav-tab.active{color:var(--gold-d);border-bottom-color:var(--gold)}
-.nav-meta{
-  font-size:11px;color:var(--ink4);
-  font-family:var(--font-m);
-  white-space:nowrap;
-  margin-left:auto;
+/* ── DOCTRINE CSS VARIABLES ──────────────────────────── */
+:root {
+  --ink:         #0A0A0A;
+  --ink-2:       #1A1A1A;
+  --muted:       #5C6066;
+  --muted-2:     #8A8F96;
+  --rule:        #E5E5E5;
+  --rule-2:      #F0F0F0;
+  --paper:       #FFFFFF;
+  --paper-2:     #FAFAF8;
+  --paper-3:     #F4F4F1;
+  --accent:      #1E6FFF;
+  --accent-soft: #E8F0FF;
+  --warn:        #C0392B;
+  --ok:          #0A7C53;
+  --f-display:   'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  --f-serif:     'Source Serif 4', Georgia, serif;
+  --f-mono:      'JetBrains Mono', 'SFMono-Regular', monospace;
 }
 
-/* ── LAYOUT ────────────────────────────────────────────────── */
-.page{display:none}
-.page.active{display:block}
-main{padding-top:52px}
-
-/* ── COVER ─────────────────────────────────────────────────── */
-.cover{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  padding:80px 40px;
-  position:relative;
-  overflow:hidden;
-  background:var(--ink);
-}
-.cover-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(184,148,62,.07) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(184,148,62,.07) 1px,transparent 1px);
-  background-size:60px 60px;
-}
-.cover-glow{
-  position:absolute;
-  width:600px;height:600px;
-  background:radial-gradient(ellipse,rgba(184,148,62,.12) 0%,transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  pointer-events:none;
-}
-.cover-inner{
-  position:relative;z-index:1;
-  text-align:center;max-width:760px;
-}
-.cover-eyebrow{
-  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);font-weight:500;margin-bottom:24px;
-  font-family:var(--font-b);
-}
-.cover-title{
-  font-family:var(--font-d);
-  font-size:clamp(40px,6vw,72px);
-  font-weight:400;
-  color:#F6F3EE;
-  line-height:1.1;
-  letter-spacing:-.02em;
-  margin-bottom:20px;
-}
-.cover-title em{color:var(--gold);font-style:italic}
-.cover-sub{
-  font-size:16px;color:rgba(246,243,238,.55);
-  margin-bottom:48px;line-height:1.7;max-width:520px;margin-left:auto;margin-right:auto;
-}
-.cover-pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
-.cover-pill{
-  font-size:11px;padding:6px 14px;
-  border:1px solid rgba(184,148,62,.3);
-  border-radius:4px;color:rgba(246,243,238,.6);
-  font-family:var(--font-m);letter-spacing:.04em;
-}
-.cover-pill.gold{border-color:var(--gold);color:var(--gold)}
-.cover-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.cover-btn{
-  font-size:12px;font-weight:500;
-  padding:10px 22px;border-radius:6px;
-  cursor:pointer;transition:all .2s;
-  font-family:var(--font-b);border:none;
-  text-decoration:none;
-}
-.cover-btn.primary{background:var(--gold);color:var(--ink)}
-.cover-btn.primary:hover{background:var(--gold-d)}
-.cover-btn.ghost{background:transparent;color:rgba(246,243,238,.7);border:1px solid rgba(255,255,255,.15)}
-.cover-btn.ghost:hover{background:rgba(255,255,255,.06)}
-
-.cover-meta{
-  position:absolute;bottom:32px;
-  display:flex;gap:24px;
-  font-size:11px;color:rgba(246,243,238,.3);font-family:var(--font-m);
-}
-.cover-meta span::before{content:'·';margin-right:8px}
-.cover-meta span:first-child::before{content:none}
-
-/* ── CONTENT PAGES ─────────────────────────────────────────── */
-.doc-page{
-  max-width:820px;
-  margin:0 auto;
-  padding:72px 40px 120px;
-}
-.doc-page.wide{max-width:1060px}
-
-/* Part label */
-.part-label{
-  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);font-weight:500;font-family:var(--font-b);
-  margin-bottom:10px;
-  display:flex;align-items:center;gap:8px;
-}
-.part-label::after{content:'';flex:0 0 40px;height:1px;background:var(--gold);opacity:.4}
-
-/* Headings */
-.h1{
-  font-family:var(--font-d);
-  font-size:clamp(30px,4vw,44px);
-  font-weight:400;color:var(--ink);
-  line-height:1.15;letter-spacing:-.02em;
-  margin-bottom:16px;
-}
-.h1 em{font-style:italic;color:var(--gold-d)}
-.h2{
-  font-family:var(--font-d);
-  font-size:22px;font-weight:500;
-  color:var(--ink);
-  margin-top:56px;margin-bottom:14px;
-  padding-bottom:10px;
-  border-bottom:1px solid var(--rule);
-  letter-spacing:-.01em;
-}
-.h2 .num{font-family:var(--font-m);font-size:13px;color:var(--ink4);margin-right:8px}
-.h3{
-  font-size:15px;font-weight:600;
-  color:var(--ink);
-  margin-top:32px;margin-bottom:8px;
-}
-.h3.red{color:var(--red)}
-.h3.teal{color:var(--teal)}
-.h3.amber{color:var(--amber)}
-
-/* Body text */
-.body{font-size:15px;color:var(--ink3);line-height:1.8;margin-bottom:16px}
-.body strong{color:var(--ink);font-weight:500}
-
-/* Lead intro */
-.lead{
-  font-size:17px;color:var(--ink3);line-height:1.75;
-  margin-bottom:40px;
-  padding-bottom:40px;
-  border-bottom:1px solid var(--rule);
+/* ── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--f-display);
+  color: var(--ink);
+  background: var(--paper);
+  font-feature-settings: "ss01","cv11","tnum";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
-/* ── COMPONENTS ─────────────────────────────────────────────── */
-
-/* KPI strip */
-.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0}
-.kpi-card{
-  background:var(--surface);border:1px solid var(--rule);
-  border-radius:8px;padding:18px 16px;
-  position:relative;overflow:hidden;
+/* ── NAV ─────────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center;
+  height: 48px; padding: 0 48px; gap: 0;
 }
-.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kc,var(--rule))}
-.kpi-card.kc-red{--kc:var(--red)}
-.kpi-card.kc-amber{--kc:#D97706}
-.kpi-card.kc-teal{--kc:var(--teal)}
-.kpi-card.kc-gold{--kc:var(--gold)}
-.kpi-val{font-family:var(--font-m);font-size:28px;font-weight:500;color:var(--kc,var(--ink));line-height:1;margin-bottom:6px}
-.kpi-label{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
-.kpi-note{font-size:11px;color:var(--ink4);line-height:1.5}
-
-/* Callout */
-.callout{
-  border-left:3px solid var(--cc,var(--gold));
-  background:var(--cb,var(--gold-l));
-  border-radius:0 6px 6px 0;
-  padding:14px 18px;
-  margin:20px 0;
+.nav-brand {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 48px;
+  white-space: nowrap;
 }
-.callout.red{--cc:var(--red);--cb:var(--red-l)}
-.callout.amber{--cc:#D97706;--cb:var(--amber-l)}
-.callout.teal{--cc:var(--teal);--cb:var(--teal-l)}
-.callout-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cc,var(--gold-d));font-weight:600;margin-bottom:5px;font-family:var(--font-b)}
-.callout-text{font-size:13.5px;color:var(--ink2);line-height:1.7}
-
-/* Code block */
-.code-block{
-  background:#1A1A2E;border-radius:8px;
-  padding:20px 22px;margin:16px 0;
-  overflow-x:auto;
+.nav-brand span { color: var(--accent); }
+.nav-tabs { display: flex; gap: 0; flex: 1; overflow-x: auto; }
+.nav-tab {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 16px;
+  height: 48px;
+  display: flex; align-items: center;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .12s;
+  text-decoration: none;
 }
-.code-label{font-size:11px;color:#EF9F27;font-family:var(--font-m);font-weight:500;letter-spacing:.06em;margin-bottom:10px}
-.code-line{font-family:var(--font-m);font-size:13px;color:#7EC8E3;line-height:1.85;white-space:pre}
-.code-line.comment{color:#5A7A8A}
-.code-line.highlight{color:#EF9F27}
-
-/* Info table */
-.info-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
-.info-table td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
-.info-table tr:last-child td{border-bottom:none}
-.info-table .it-label{font-weight:500;color:var(--ink);background:var(--canvas);width:220px;white-space:nowrap}
-.info-table .it-val{color:var(--ink3);background:var(--surface)}
-.info-table tr:nth-child(even) .it-val{background:#FAFAF6}
-
-/* Flow steps */
-.flow-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:24px 0;position:relative}
-.flow-steps::before{content:'';position:absolute;top:20px;left:10%;right:10%;height:1px;background:var(--rule2);z-index:0}
-.flow-step{text-align:center;position:relative;z-index:1;padding:0 6px}
-.fs-num{
-  width:40px;height:40px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-m);font-size:13px;font-weight:500;
-  margin:0 auto 10px;border:1.5px solid;
+.nav-tab:hover { color: var(--ink-2); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav-right {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--muted-2);
+  white-space: nowrap;
+  margin-left: auto;
 }
-.fs-ok .fs-num{background:var(--teal-l);border-color:var(--teal);color:var(--teal)}
-.fs-warn .fs-num{background:var(--amber-l);border-color:#D97706;color:#D97706}
-.fs-bad .fs-num{background:var(--red-l);border-color:var(--red);color:var(--red)}
-.fs-title{font-size:11.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
-.fs-sub{font-size:10.5px;color:var(--ink4);line-height:1.5}
 
-/* Compare table */
-.compare-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
-.compare-table th{
-  text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-  font-weight:500;padding:10px 14px;border-bottom:2px solid var(--ink);
-  color:var(--ink4);background:var(--canvas);font-family:var(--font-b);
+/* ── PAGES ───────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+main { padding-top: 48px; }
+
+/* ── CONTENT WRAPPER ─────────────────────────────────── */
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 48px 96px;
 }
-.compare-table th:first-child{background:var(--canvas);color:var(--ink4)}
-.compare-table th:nth-child(2){background:#FCF0F0;color:var(--red)}
-.compare-table th:nth-child(3){background:#E8F5F0;color:var(--teal)}
-.compare-table td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink3)}
-.compare-table tr:last-child td{border-bottom:none}
-.compare-table .ct-dim{font-weight:500;color:var(--ink);background:var(--canvas)}
-.compare-table .ct-bad{background:#FEFBFB}
-.compare-table .ct-good{background:#F5FBF8;color:var(--teal);font-weight:500}
-
-/* Risk table */
-.risk-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
-.risk-table th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:9px 12px;border-bottom:1px solid var(--ink);color:#FFF;font-family:var(--font-b);background:var(--ink)}
-.risk-table td{padding:11px 12px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink3)}
-.risk-table tr:last-child td{border-bottom:none}
-.risk-table .rt-high{color:var(--red);font-weight:600;font-family:var(--font-m);font-size:11px}
-.risk-table .rt-med{color:#D97706;font-weight:600;font-family:var(--font-m);font-size:11px}
-.risk-table .rt-low{color:var(--teal);font-weight:600;font-family:var(--font-m);font-size:11px}
-
-/* Feature block */
-.feature-block{
-  border:1px solid var(--rule);
-  border-radius:10px;
-  margin:20px 0;
-  overflow:hidden;
+.wrap-wide {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 64px 48px 96px;
 }
-.fb-header{
-  display:flex;align-items:flex-start;gap:16px;
-  padding:18px 20px 14px;
-  border-bottom:1px solid var(--rule);
-  background:var(--surface);
+
+/* ── TYPOGRAPHY ──────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: block;
 }
-.fb-num{
-  font-family:var(--font-m);font-size:28px;font-weight:500;
-  line-height:1;flex-shrink:0;margin-top:4px;
+.eyebrow.muted { color: var(--muted); }
+
+.h1 {
+  font-family: var(--f-display);
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 24px;
 }
-.fb-meta{flex:1}
-.fb-category{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);font-weight:500;margin-bottom:3px}
-.fb-title{font-size:15px;font-weight:600;color:var(--ink);line-height:1.3}
-.fb-body{padding:16px 20px}
-.fb-desc{font-size:13.5px;color:var(--ink3);line-height:1.75;margin-bottom:12px}
-.fb-features{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.fb-tag{font-size:11px;padding:3px 9px;border-radius:4px;background:var(--canvas);border:1px solid var(--rule);color:var(--ink3)}
-.fb-outcome{
-  font-size:13px;font-weight:500;
-  padding:9px 12px;border-radius:5px;
-  border-left:3px solid;
+.h1 em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
 }
-.fb-outcome.teal{background:var(--teal-l);border-color:var(--teal);color:var(--teal)}
-.fb-outcome.gold{background:var(--gold-l);border-color:var(--gold);color:var(--gold-d)}
-
-/* Data source table */
-.ds-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12.5px}
-.ds-table th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:9px 12px;border-bottom:2px solid var(--ink);color:#FFF;background:var(--ink)}
-.ds-table td{padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:middle;color:var(--ink3)}
-.ds-table tr:nth-child(even) td{background:#FAFAF6}
-.ds-table tr:last-child td{border-bottom:none}
-.ds-table .ds-name{font-weight:500;color:var(--ink)}
-.ing-pill{display:inline-block;font-size:10px;padding:2px 8px;border-radius:3px;font-weight:500;font-family:var(--font-m)}
-.ing-auto{background:var(--teal-l);color:var(--teal)}
-.ing-manual{background:var(--red-l);color:var(--red)}
-.ing-upload{background:var(--gold-l);color:var(--gold-d)}
-
-/* ML table */
-.ml-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12.5px}
-.ml-table th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:9px 12px;border-bottom:2px solid var(--ink);color:#FFF;background:var(--ink)}
-.ml-table td{padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:middle;color:var(--ink3)}
-.ml-table tr:nth-child(even) td{background:#FAFAF6}
-.ml-table tr:last-child td{border-bottom:none}
-.auto-val{font-family:var(--font-m);font-weight:500;color:var(--teal)}
-
-/* Before/After */
-.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
-.ba-card{border-radius:8px;padding:20px;border-top:3px solid}
-.ba-before{background:var(--red-l);border-color:var(--red)}
-.ba-after{background:var(--teal-l);border-color:var(--teal)}
-.ba-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:8px;font-family:var(--font-b)}
-.ba-before .ba-label{color:var(--red)}
-.ba-after  .ba-label{color:var(--teal)}
-.ba-title{font-size:17px;font-weight:500;color:var(--ink);margin-bottom:10px;font-family:var(--font-d)}
-.ba-text{font-size:13px;color:var(--ink3);line-height:1.7}
-
-/* Roadmap table */
-.roadmap-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
-.roadmap-table th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:9px 12px;border-bottom:2px solid var(--ink);color:#FFF;background:var(--ink)}
-.roadmap-table td{padding:12px;border-bottom:1px solid var(--rule);vertical-align:top}
-.roadmap-table tr:last-child td{border-bottom:none}
-
-/* Open queries */
-.query-item{
-  display:grid;grid-template-columns:32px 1fr;gap:12px;
-  padding:14px 0;border-bottom:1px solid var(--rule);
-  align-items:flex-start;
+.h2 {
+  font-family: var(--f-display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 48px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
-.query-item:last-child{border-bottom:none}
-.q-num{
-  font-family:var(--font-m);font-size:13px;font-weight:500;
-  color:var(--gold-d);padding-top:2px;
+.h2 .num {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  font-weight: 400;
+  letter-spacing: .08em;
 }
-.q-content{}
-.q-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px}
-.q-body{font-size:13px;color:var(--ink3);line-height:1.65}
-
-/* Closing statement */
-.closing-statement{
-  background:var(--ink);
-  border-radius:10px;
-  padding:36px 40px;
-  margin:48px 0 0;
+.h3 {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 32px;
+  margin-bottom: 8px;
 }
-.cs-text{
-  font-family:var(--font-d);
-  font-size:22px;font-weight:400;
-  color:#F6F3EE;
-  line-height:1.5;
-  font-style:italic;
+.body {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
-.cs-attr{font-size:12px;color:rgba(246,243,238,.35);font-family:var(--font-m);margin-top:16px}
-
-/* Bullet list */
-ul.doc-list{list-style:none;padding-left:0;margin:12px 0}
-ul.doc-list li{
-  padding:6px 0 6px 20px;
-  position:relative;color:var(--ink3);
-  font-size:14px;line-height:1.65;
-  border-bottom:1px solid var(--canvas);
+.body strong { color: var(--ink-2); font-weight: 500; }
+.lead {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--rule);
 }
-ul.doc-list li::before{content:'—';position:absolute;left:0;color:var(--rule2);font-family:var(--font-m)}
 
-/* Section divider */
-.section-rule{height:1px;background:linear-gradient(90deg,var(--gold) 0%,var(--rule) 60%,transparent 100%);margin:48px 0;opacity:.4}
+/* ── STAT ROW (doctrine pattern 4.3) ────────────────── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--ink);
+  margin: 32px 0;
+}
+.stat-cell {
+  padding: 20px 24px 20px 0;
+  border-right: 1px solid var(--rule);
+  margin-right: 0;
+}
+.stat-cell:first-child { padding-left: 0; }
+.stat-cell:last-child { border-right: none; }
+.stat-val {
+  font-family: var(--f-display);
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-feature-settings: "tnum";
+}
+.stat-val.warn { color: var(--warn); }
+.stat-val.ok   { color: var(--ok); }
+.stat-val.accent { color: var(--accent); }
+.stat-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.stat-note {
+  font-size: 12px;
+  color: var(--muted-2);
+  line-height: 1.4;
+}
 
-/* Fade-in animation */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.fade{animation:fadeUp .5s ease both}
-.fade-1{animation-delay:.06s}.fade-2{animation-delay:.12s}.fade-3{animation-delay:.18s}.fade-4{animation-delay:.24s}
+/* ── PULL QUOTE (doctrine pattern 4.6) ──────────────── */
+.pull-quote {
+  border-left: 2px solid var(--accent);
+  padding: 16px 0 16px 24px;
+  margin: 32px 0;
+}
+.pull-quote-text {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-2);
+  margin-bottom: 12px;
+}
+.pull-quote-attr {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
 
-/* Sticky scroll progress */
-.progress-bar{position:fixed;top:52px;left:0;right:0;height:2px;background:var(--rule);z-index:99}
-.progress-fill{height:100%;background:var(--gold);width:0%;transition:width .1s}
+/* ── HAIRLINE CALLOUT ────────────────────────────────── */
+.callout {
+  background: var(--paper-3);
+  border-left: 2px solid var(--accent);
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok   { border-left-color: var(--ok); }
+.callout-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.callout.warn .callout-label { color: var(--warn); }
+.callout.ok   .callout-label { color: var(--ok); }
+.callout-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
 
-/* Mobile */
-@media(max-width:640px){
-  .kpi-strip{grid-template-columns:1fr 1fr}
-  .ba-grid{grid-template-columns:1fr}
-  .flow-steps{grid-template-columns:1fr}
-  .flow-steps::before{display:none}
-  .doc-page{padding:40px 20px 80px}
-  .topnav{padding:0 16px}
+/* ── TABLE ───────────────────────────────────────────── */
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 16px 0;
+}
+.doc-table th {
+  text-align: left;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ink);
+}
+.doc-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--muted);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table .td-label {
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+  width: 200px;
+}
+
+/* ── BEFORE / AFTER (doctrine pattern 4.7) ───────────── */
+.ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  margin: 24px 0;
+}
+.ba-card { padding: 24px; background: var(--paper); border-left: 2px solid; }
+.ba-before { border-left-color: var(--warn); }
+.ba-after  { border-left-color: var(--ok); }
+.ba-eyebrow {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.ba-before .ba-eyebrow { color: var(--warn); }
+.ba-after  .ba-eyebrow { color: var(--ok); }
+.ba-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.ba-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── DARK INVERSION (doctrine pattern 4.8) ───────────── */
+.inversion {
+  background: var(--ink);
+  padding: 40px 48px;
+  margin: 48px 0 0;
+}
+.inversion-text {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--paper);
+  margin-bottom: 16px;
+}
+.inversion-text span { color: var(--accent); }
+.inversion-attr {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+/* ── CODE BLOCK ──────────────────────────────────────── */
+.code-block {
+  background: var(--paper-3);
+  padding: 20px 24px;
+  margin: 16px 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--ink-2);
+  overflow-x: auto;
+  border-left: 1px solid var(--rule);
+}
+.code-block .cl { color: var(--muted-2); }
+.code-block .ca { color: var(--accent); font-weight: 500; }
+.code-block .cw { color: var(--warn); }
+
+/* ── NUMBERED GRID (doctrine pattern 4.9) ────────────── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  margin: 24px 0;
+}
+.feature-card {
+  background: var(--paper);
+  padding: 24px;
+  position: relative;
+}
+.fc-num {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  letter-spacing: .08em;
+  margin-bottom: 12px;
+}
+.fc-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.fc-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.fc-outcome {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--ok);
+  letter-spacing: .04em;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule-2);
+}
+
+/* ── FLOW ROW ────────────────────────────────────────── */
+.flow-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 24px 0;
+}
+.flow-step {
+  padding: 16px 12px;
+  border-right: 1px solid var(--rule);
+  text-align: center;
+}
+.flow-step:last-child { border-right: none; }
+.flow-step.bad { background: var(--paper-3); }
+.fs-n {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  margin-bottom: 8px;
+  letter-spacing: .08em;
+}
+.fs-title { font-size: 12px; font-weight: 500; color: var(--ink-2); margin-bottom: 4px; }
+.fs-sub   { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.fs-warn  { font-size: 10px; color: var(--warn); margin-top: 4px; font-family: var(--f-mono); }
+
+/* ── COMPARE TABLE ───────────────────────────────────── */
+.compare-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+.compare-table th {
+  text-align: left;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ink);
+  color: var(--muted);
+}
+.compare-table th:nth-child(2) { color: var(--warn); }
+.compare-table th:nth-child(3) { color: var(--ok); }
+.compare-table td { padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+.compare-table tr:last-child td { border-bottom: none; }
+.ct-dim { font-weight: 500; color: var(--ink-2); background: var(--paper-2); width: 160px; }
+.ct-bad { color: var(--muted); }
+.ct-good { color: var(--ok); font-weight: 500; }
+
+/* ── QUERY LIST ──────────────────────────────────────── */
+.query-list { margin: 16px 0; }
+.query-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  gap: 16px;
+}
+.query-item:last-child { border-bottom: none; }
+.q-n {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--accent);
+  padding-top: 2px;
+  letter-spacing: .06em;
+}
+.q-title { font-size: 14px; font-weight: 500; color: var(--ink-2); margin-bottom: 4px; }
+.q-body  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* ── RISK TABLE ──────────────────────────────────────── */
+.risk-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.risk-table th {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; font-weight: 400; color: var(--muted);
+  padding: 8px 12px; border-bottom: 1px solid var(--ink); text-align: left;
+}
+.risk-table td { padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--muted); line-height: 1.5; }
+.risk-table tr:last-child td { border-bottom: none; }
+.risk-table .rt-risk { font-weight: 500; color: var(--ink-2); }
+.risk-high { font-family: var(--f-mono); font-size: 10px; color: var(--warn); font-weight: 500; }
+.risk-med  { font-family: var(--f-mono); font-size: 10px; color: #C07030; font-weight: 500; }
+.risk-low  { font-family: var(--f-mono); font-size: 10px; color: var(--ok); font-weight: 500; }
+
+/* ── ING BADGE ───────────────────────────────────────── */
+.ing {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: .06em;
+  padding: 2px 6px; font-weight: 500;
+}
+.ing-auto   { color: var(--ok); }
+.ing-manual { color: var(--warn); }
+.ing-upload { color: var(--accent); }
+
+/* ── ROADMAP TABLE ───────────────────────────────────── */
+.roadmap-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.roadmap-table th { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 400; color: var(--muted); padding: 8px 12px; border-bottom: 1px solid var(--ink); text-align: left; }
+.roadmap-table td { padding: 12px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--muted); line-height: 1.5; }
+.roadmap-table tr:last-child td { border-bottom: none; }
+.rt-phase { font-family: var(--f-mono); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; }
+
+/* ── SECTION RULE ────────────────────────────────────── */
+.section-rule { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+
+/* ── COVER ───────────────────────────────────────────── */
+.cover {
+  border-bottom: 1px solid var(--rule);
+  padding: 96px 48px 80px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.cover-meta {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+  display: flex;
+  gap: 24px;
+}
+.cover-meta .sep { color: var(--rule); }
+.cover-title {
+  font-family: var(--f-display);
+  font-size: 52px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.cover-title em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.cover-sub {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+.cover-divider { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+.cover-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--ink);
+  margin-bottom: 48px;
+}
+.cs-cell {
+  padding: 20px 24px 20px 0;
+  border-right: 1px solid var(--rule);
+}
+.cs-cell:last-child { border-right: none; }
+.cs-cell:first-child { padding-left: 0; }
+.cs-val {
+  font-family: var(--f-display);
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  font-feature-settings: "tnum";
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.cs-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cover-nav {
+  display: flex;
+  gap: 16px;
+}
+.btn-primary {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  border: none;
+  transition: background .12s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--ink-2); }
+.btn-ghost {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border: 1px solid var(--rule);
+  transition: all .12s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--ink-2); color: var(--ink-2); }
+
+/* ── SCROLL PROGRESS ─────────────────────────────────── */
+.progress { position: fixed; top: 48px; left: 0; right: 0; height: 1px; background: var(--rule); z-index: 99; }
+.progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width .08s; }
+
+/* ── CONTEXT GRID ────────────────────────────────────── */
+.context-check {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: flex-start;
+}
+.context-check:last-child { border-bottom: none; }
+.cc-mark { font-family: var(--f-mono); font-size: 11px; color: var(--ok); padding-top: 3px; }
+.cc-title { font-size: 13px; font-weight: 500; color: var(--ink-2); margin-bottom: 4px; }
+.cc-body  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* ── ML TABLE ────────────────────────────────────────── */
+.ml-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.ml-table th { font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 400; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--ink); text-align: left; }
+.ml-table td { padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: middle; color: var(--muted); }
+.ml-table tr:last-child td { border-bottom: none; }
+.ml-auto { font-family: var(--f-mono); font-weight: 500; color: var(--ok); }
+.ml-tier { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
+
+/* ── MOBILE ──────────────────────────────────────────── */
+@media(max-width: 640px) {
+  .stat-row, .cover-stats { grid-template-columns: 1fr 1fr; }
+  .ba-grid { grid-template-columns: 1fr; gap: 1px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .flow-row { grid-template-columns: 1fr; }
+  .wrap, .wrap-wide, .cover { padding: 48px 24px 64px; }
+  .cover-title { font-size: 36px; }
+  .h1 { font-size: 28px; }
+  .nav { padding: 0 24px; }
 }
 </style>
 </head>
 <body>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+<div class="progress"><div class="progress-bar" id="prog"></div></div>
 
-<!-- TOP NAV -->
-<nav class="topnav">
-  <div class="nav-brand">Foxtale × DevX &nbsp;<span>SCM Intelligence</span></div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">DevX Labs <span>/</span> Foxtale</div>
   <div class="nav-tabs">
     <a class="nav-tab active" onclick="show('cover',this)">Overview</a>
-    <a class="nav-tab" onclick="show('problem',this)">The Problem</a>
-    <a class="nav-tab" onclick="show('situation',this)">The Situation</a>
-    <a class="nav-tab" onclick="show('solution',this)">The Solution</a>
-    <a class="nav-tab" onclick="show('how',this)">How It Works</a>
-    <a class="nav-tab" onclick="show('risks',this)">Where It Fails</a>
-    <a class="nav-tab" onclick="show('roadmap',this)">Roadmap</a>
-    <a class="nav-tab" onclick="show('start',this)">What We Need</a>
+    <a class="nav-tab" onclick="show('context',this)">Context</a>
+    <a class="nav-tab" onclick="show('problem',this)">01 · Problem</a>
+    <a class="nav-tab" onclick="show('situation',this)">02 · Situation</a>
+    <a class="nav-tab" onclick="show('solution',this)">03 · Solution</a>
+    <a class="nav-tab" onclick="show('how',this)">04 · How it works</a>
+    <a class="nav-tab" onclick="show('risks',this)">05 · Where it fails</a>
+    <a class="nav-tab" onclick="show('roadmap',this)">06 · Roadmap</a>
+    <a class="nav-tab" onclick="show('start',this)">07 · To begin</a>
   </div>
-  <div class="nav-meta">Phase 1 · May 2026</div>
+  <div class="nav-right">Phase 1 &nbsp;&middot;&nbsp; May 2026</div>
 </nav>
 
 <main>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      COVER
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="page-cover" class="page active">
   <div class="cover">
-    <div class="cover-grid"></div>
-    <div class="cover-glow"></div>
-    <div class="cover-inner">
-      <div class="cover-eyebrow fade fade-1">Point of View · SCM Intelligence Platform</div>
-      <h1 class="cover-title fade fade-2">
-        From spreadsheet<br>guesswork to<br><em>supply intelligence</em>
-      </h1>
-      <p class="cover-sub fade fade-3">
-        A complete, hierarchical POV — from the root cause of Foxtale's supply chain failures to the precise architecture that eliminates them. Phase 1 of 3.
-      </p>
-      <div class="cover-pills fade fade-4">
-        <span class="cover-pill gold">Prepared by DevX AI Labs</span>
-        <span class="cover-pill">For Foxtale Skincare</span>
-        <span class="cover-pill">Phase 1 · 3 months</span>
-        <span class="cover-pill">May 2026</span>
+    <div class="cover-meta">
+      <span>Point of View</span>
+      <span class="sep">/</span>
+      <span>SCM Intelligence Platform</span>
+      <span class="sep">/</span>
+      <span>Phase 1 of 3</span>
+    </div>
+
+    <h1 class="cover-title">
+      From spreadsheet<br>guesswork to<br><em>supply intelligence</em>
+    </h1>
+
+    <p class="cover-sub">
+      A complete, hierarchical point of view — from the root cause of Foxtale's supply chain failures to the precise architecture that eliminates them. Prepared by DevX AI Labs following the discovery session of 4 May 2026.
+    </p>
+
+    <hr class="cover-divider">
+
+    <div class="cover-stats">
+      <div class="cs-cell">
+        <div class="cs-val">6</div>
+        <div class="cs-label">Failures identified</div>
       </div>
-      <div class="cover-nav fade fade-4">
-        <a class="cover-btn primary" onclick="show('problem',document.querySelector('.nav-tab:nth-child(2)'))">Read the POV →</a>
-        <a class="cover-btn ghost" onclick="show('solution',document.querySelector('.nav-tab:nth-child(4)'))">Jump to solution</a>
+      <div class="cs-cell">
+        <div class="cs-val">7</div>
+        <div class="cs-label">Features in Phase 1</div>
+      </div>
+      <div class="cs-cell">
+        <div class="cs-val">10</div>
+        <div class="cs-label">Open queries</div>
+      </div>
+      <div class="cs-cell">
+        <div class="cs-val">&lt;2%</div>
+        <div class="cs-label">Target M1 PO rate</div>
       </div>
     </div>
-    <div class="cover-meta">
-      <span>6 failures identified</span>
-      <span>7 features in Phase 1</span>
-      <span>8 open queries</span>
-      <span>M1 PO rate from 10% → under 2%</span>
+
+    <div class="cover-nav">
+      <a class="btn-primary" onclick="show('context',document.querySelectorAll('.nav-tab')[1])">Read the POV</a>
+      <a class="btn-ghost" onclick="show('solution',document.querySelectorAll('.nav-tab')[4])">Jump to solution</a>
+    </div>
+  </div>
+
+  <div style="max-width:720px;margin:0 auto;padding:0 48px 96px">
+    <div style="border-top:1px solid var(--rule);padding-top:48px;margin-top:48px">
+      <span class="eyebrow muted">Document structure</span>
+      <table class="doc-table">
+        <tr><td class="td-label">01 &nbsp;The Problem</td><td>Six specific, evidence-backed failures identified from the February 2026 demand model. Real SKU data, real numbers from the V18 Excel file.</td></tr>
+        <tr><td class="td-label">02 &nbsp;The Situation</td><td>The business mechanics — secondary vs primary demand, the 45-day rule, all PO formulas with M0 Actual correction, and the data source risk map.</td></tr>
+        <tr><td class="td-label">03 &nbsp;The Solution</td><td>Seven features in Phase 1. Current vs target state. Full ML forecast automation layer with three-track model architecture.</td></tr>
+        <tr><td class="td-label">04 &nbsp;How It Works</td><td>The complete demand cycle end to end, step by step. The Monday morning before and after.</td></tr>
+        <tr><td class="td-label">05 &nbsp;Where It Fails</td><td>Eight failure modes with probability, impact, and mitigation. Ten open queries that must be confirmed before coding begins.</td></tr>
+        <tr><td class="td-label">06 &nbsp;Roadmap</td><td>Three-phase roadmap. Phase 1 in full detail. ML model selection reference table by SKU tier.</td></tr>
+        <tr><td class="td-label">07 &nbsp;To Begin</td><td>Six specific asks from Foxtale. None are engineering resources.</td></tr>
+      </table>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PART 1 — THE PROBLEM
-═══════════════════════════════════════════════════════════ -->
-<div id="page-problem" class="page">
-  <div class="doc-page">
-    <div class="part-label fade">Part 1</div>
-    <h1 class="h1 fade fade-1">The <em>problem</em></h1>
-    <p class="lead fade fade-2">Before we talk about what we are building, let us be precise about what is broken — not at a surface level, but at the level of root cause. Everything in this document follows from this section.</p>
+<!-- ══════════════════════════════════════════
+     CONTEXT
+══════════════════════════════════════════ -->
+<div id="page-context" class="page">
+  <div class="wrap">
+    <span class="eyebrow">Context</span>
+    <h1 class="h1">Before you read <em>the POV</em></h1>
+    <p class="lead">This document was prepared by the DevX AI Labs product team following a 23-minute discovery call with the Foxtale SCM lead on 4 May 2026. It incorporates the technical data flow architecture prepared independently by the DevX tech team, and draws on analysis of 15+ live inventory forecasting platforms at similar scale.</p>
 
-    <div class="h2"><span class="num">1.1</span>What Foxtale's supply chain looks like today</div>
-    <p class="body">Foxtale sells skincare products across 12 channels and sources everything from third-party manufacturers. On paper, the demand planning process is well-designed. In practice, it runs entirely on informal tools with no enforcement layer.</p>
-    <table class="info-table">
-      <tr><td class="it-label">Sales channels</td><td class="it-val">12 total: Amazon, Flipkart, Nykaa, Myntra, Meesho, Purplle, Tira (marketplaces) + Blinkit, Zepto, Swiggy (quick commerce) + Website (D2C) + Offline/GT</td></tr>
-      <tr><td class="it-label">Manufacturers</td><td class="it-val">Three third-party contract manufacturers supply all products. Lead time from PO to warehouse receipt: 3 to 4 weeks per manufacturer.</td></tr>
-      <tr><td class="it-label">ERP / WMS</td><td class="it-val">Unicommerce. Inventory source of truth. Closing stock syncs daily. In an ideal world, all procurement flows through and back to Unicommerce.</td></tr>
-      <tr><td class="it-label">Planning tool today</td><td class="it-val">Microsoft Excel. Version-named files (V17, V18, V19…) shared over WhatsApp and email. No version control. No access control. No audit trail. No validation logic.</td></tr>
-      <tr><td class="it-label">Demand submission</td><td class="it-val">Growth team fills the Excel file per channel and shares it with the supply chain team each month. SCM team then manually computes all procurement quantities.</td></tr>
+    <div class="h2"><span class="num">—</span>What was incorporated from the tech architecture doc</div>
+    <p class="body">The technical data flow document prepared by the DevX tech team was reviewed in full. Six specific additions came from that document and are now embedded throughout this POV.</p>
+    <div style="background:var(--paper-2);padding:0 24px;margin:16px 0;border-left:1px solid var(--rule)">
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">Unicommerce confirmed as the WMS</div><div class="cc-body">Closing inventory auto-pulls daily. POs to be auto-raised on Unicommerce after SCM approval in target state — not just a CSV export to SAP.</div></div>
+      </div>
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">M0 Actual correction added to primary demand formula</div><div class="cc-body">Primary Demand now includes + M0 Actual (current month's actual sales to date). Prevents over-ordering in months where demand has already partially been consumed.</div></div>
+      </div>
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">Open PO + GRN Pending + In-Transit flagged as Phase 1 prerequisite</div><div class="cc-body">These three manual inputs are now explicitly called out as go-live blockers — not Phase 2 enhancements. The data source table in Part 2 marks all three as HIGH risk.</div></div>
+      </div>
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">M1 PO target corrected to &lt;2%</div><div class="cc-body">The tech doc confirmed the correct target is under 2%, not under 3% as initially stated. Updated throughout this document and in the prototype.</div></div>
+      </div>
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">Full ML forecast automation layer incorporated</div><div class="cc-body">Three model tracks (stable AZ/BZ, volatile AX/BX, new launches CX), the human-in-loop flow, and the six-layer feedback loop are all described in Part 3 and the technical reference table in Part 6.</div></div>
+      </div>
+      <div class="context-check">
+        <div class="cc-mark">+</div>
+        <div><div class="cc-title">Q9 and Q10 added to open queries</div><div class="cc-body">Spend data granularity and sale event calendar — both genuine blockers for ML accuracy, identified in the tech doc. Both in Part 5.</div></div>
+      </div>
+    </div>
+
+    <div class="h2"><span class="num">—</span>What the call confirmed</div>
+    <table class="doc-table">
+      <tr><td class="td-label">Primary problem</td><td>Forecast changes happening without justification, after manufacturer commitments. Fear buffers being added across all SKUs after single stockout events.</td></tr>
+      <tr><td class="td-label">45-day rule</td><td>Marketplace channels use 45-day target closing. Website and Offline are Primary = Secondary. Open query: whether the rule varies by SKU, season, or channel.</td></tr>
+      <tr><td class="td-label">Approval surface</td><td>Slack discussed as the notification surface. Maker-checker flow confirmed as a requirement. Exact SLA and escalation path to be confirmed (Q3).</td></tr>
+      <tr><td class="td-label">Next steps agreed</td><td>DevX to build POV and prototype for review. Foxtale to share working Excel files for one complete demand cycle.</td></tr>
     </table>
 
-    <div class="h2"><span class="num">1.2</span>What actually happens during a demand cycle</div>
-    <div class="flow-steps">
-      <div class="flow-step fs-ok"><div class="fs-num">01</div><div class="fs-title">Growth team forecasts</div><div class="fs-sub">Enters expected secondary sales per channel and SKU into Excel. Based on intuition and last month's data.</div></div>
-      <div class="flow-step fs-warn"><div class="fs-num">02</div><div class="fs-title">File shared informally</div><div class="fs-sub">Sent via WhatsApp or email. No version lock. Changes can happen after sharing.</div></div>
-      <div class="flow-step fs-warn"><div class="fs-num">03</div><div class="fs-title">SCM computes manually</div><div class="fs-sub">Manually enters Open PO, GRN Pending, In-Transit. Calculates primary demand in Excel.</div></div>
-      <div class="flow-step fs-bad"><div class="fs-num">04</div><div class="fs-title">PO raised directly</div><div class="fs-sub">No formal approval step. No system check. Manufacturer commits from here.</div></div>
-      <div class="flow-step fs-bad"><div class="fs-num">05</div><div class="fs-title">Ops sends alert after</div><div class="fs-sub">Notification email fires after the PO is already committed. Accountability is post-hoc.</div></div>
+    <div class="callout">
+      <div class="callout-label">One thing to flag</div>
+      <div class="callout-body">The open queries in Part 5 (Q1–Q10) are not design decisions — they are factual business rules that only Foxtale can confirm. The most critical are Q6 (SNOP date) and Q7 (manufacturer lead times), which directly determine the M1 formula output. These need to be resolved before the engineering team codes the PO calculation engine.</div>
     </div>
 
-    <div class="h2"><span class="num">1.3</span>The six failures this process produces</div>
-    <p class="body">These are not hypothetical risks. These are confirmed realities visible in the February 2026 demand model reviewed by the DevX team.</p>
-
-    <div class="kpi-strip">
-      <div class="kpi-card kc-amber"><div class="kpi-val">67d</div><div class="kpi-label">Sunscreen Matte DOH</div><div class="kpi-note">22d above 45d target. ₹58L+ working capital locked.</div></div>
-      <div class="kpi-card kc-red"><div class="kpi-val">18d</div><div class="kpi-label">Ceramide DOH</div><div class="kpi-note">Stockout in 2.5 weeks. No alert raised.</div></div>
-      <div class="kpi-card kc-red"><div class="kpi-val">10%</div><div class="kpi-label">M1 PO rate</div><div class="kpi-note">Target &lt;2%. 3L units per month in emergency mode.</div></div>
-      <div class="kpi-card kc-gold"><div class="kpi-val">+62%</div><div class="kpi-label">Amazon vs AOP</div><div class="kpi-note">₹7.07Cr actual vs ₹4.35Cr plan. Demand plan not updated.</div></div>
-    </div>
-
-    <div class="h3 red">Failure 1 — No accountability before forecast changes land</div>
-    <p class="body">When the growth team revises a demand figure — even a 25% reduction on a high-volume SKU — there is no system check, no justification requirement, and no approval gate. The change is accepted at the moment of submission. By the time anyone notices, the manufacturer has already begun production or ordered raw materials based on the previous number.</p>
-    <div class="callout red"><div class="callout-label">The real cost</div><div class="callout-text">This is not a process problem. It is a working capital problem. Every unjustified demand reduction after a manufacturer commitment represents either wasted procurement spend or a renegotiation penalty.</div></div>
-
-    <div class="h3 red">Failure 2 — 10% of orders are emergency M1 purchase orders</div>
-    <p class="body">A Month 1 PO means an order raised in the same month the goods are needed. In a business shipping approximately 30 lakh units per month, 10% as M1 means 3 lakh units per month procured in emergency mode. Both Sunscreen Matte (43,167 units) and Sunscreen Dewy (54,687 units) are M1 POs in the February 2026 cycle — the two highest-volume SKUs — going to the same manufacturer simultaneously.</p>
-
-    <div class="h3 red">Failure 3 — Simultaneous stockouts and dead stock in the same cycle</div>
-    <p class="body">Ceramide Moisturizer is 18 days from running out. Sunscreen Matte is sitting at 67 days of stock — 22 days above the target. Both conditions exist at the same time, in the same company, in the same month. This is not bad luck. It is the direct output of a forecasting process with no feedback mechanism and no system-enforced accuracy standard.</p>
-
-    <div class="h3" style="color:#7A5200">Failure 4 — Silent formula corruption in every PO calculation</div>
-    <p class="body">The PO calculation depends on four inputs: closing inventory, in-transit stock, GRN pending, and open POs. Closing inventory is the only one that auto-syncs from Unicommerce. The other three are manually entered by the supply chain team into Excel every cycle. Any transcription error propagates silently through the entire M1, M2, and M3 calculation. The formula produces a wrong answer that looks exactly like a right answer.</p>
-    <div class="callout amber"><div class="callout-label">Highest technical risk</div><div class="callout-text">Every inventory forecasting platform operating at this scale auto-syncs these three data points from the WMS. Running them manually is not a process choice — it is a structural accuracy risk that makes the formula output unreliable regardless of how well the demand forecast is constructed.</div></div>
-
-    <div class="h3" style="color:#7A5200">Failure 5 — Fear buffer contagion after every stockout</div>
-    <p class="body">When one SKU runs out, the team's response is to add safety buffer to every SKU in the catalogue — not just the one that stocked out. After each stockout event, company-wide Days on Hand increases by approximately 7 to 10 days. Working capital is locked unnecessarily across products that had no supply risk.</p>
-
-    <div class="h3">Failure 6 — Every decision's reasoning is permanently lost</div>
-    <p class="body">When a forecast is revised, when a buffer is added, when a demand target changes — the reasoning behind that decision is never recorded. Six months later, no one can answer why a particular choice was made. V18, V19, V20 are the entire audit trail. The institutional knowledge of the business lives in people's memories and chat histories, not in a system that can be reviewed, improved, or held accountable.</p>
-
-    <div class="closing-statement">
-      <div class="cs-text">"The problem is not that the team is making bad decisions. The problem is that the system makes it impossible to make consistently good ones."</div>
-      <div class="cs-attr">DevX AI Labs · POV observation · May 2026</div>
+    <div style="display:flex;gap:16px;margin-top:48px">
+      <a class="btn-primary" onclick="show('problem',document.querySelectorAll('.nav-tab')[2])">Start with Part 1</a>
+      <a class="btn-ghost" onclick="show('solution',document.querySelectorAll('.nav-tab')[4])">Jump to the solution</a>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PART 2 — THE SITUATION
-═══════════════════════════════════════════════════════════ -->
-<div id="page-situation" class="page">
-  <div class="doc-page">
-    <div class="part-label">Part 2</div>
-    <h1 class="h1">The <em>situation</em></h1>
-    <p class="lead">The business mechanics that make this problem expensive — and the constraints that any solution must respect. A replacement system must replicate this logic exactly.</p>
+<!-- ══════════════════════════════════════════
+     PART 1 — THE PROBLEM
+══════════════════════════════════════════ -->
+<div id="page-problem" class="page">
+  <div class="wrap">
+    <span class="eyebrow">Part 01</span>
+    <h1 class="h1">The <em>problem</em></h1>
+    <p class="lead">Before we talk about what we are building, let us be precise about what is broken — not at a surface level, but at the level of root cause. Everything in this document follows from this section.</p>
 
-    <div class="h2"><span class="num">2.1</span>How demand planning actually works</div>
-    <table class="info-table">
-      <tr><td class="it-label">Secondary demand</td><td class="it-val">What end customers buy from the marketplace or website. The growth team's monthly target. Measured in units sold by the channel.</td></tr>
-      <tr><td class="it-label">Primary demand</td><td class="it-val">What Foxtale must procure from manufacturers and hold in its warehouse. Always calculated from secondary — never set independently. Always larger than secondary for marketplace channels.</td></tr>
-      <tr><td class="it-label">The 45-day rule</td><td class="it-val">Foxtale's warehouse should always hold 45 days of upcoming secondary demand in stock. Manufacturing + shipping = ~30 days. Safety buffer = 15 days. Total = 45 days target DOH.</td></tr>
-      <tr><td class="it-label">When Primary = Secondary</td><td class="it-val">Website (D2C) and Offline/GT only. Foxtale ships directly — no fulfilment centre buffer layer. No speculative stocking for GT to avoid RTV risk.</td></tr>
+    <div class="h2"><span class="num">1.1</span>What the supply chain looks like today</div>
+    <table class="doc-table">
+      <tr><td class="td-label">Sales channels</td><td>12 total: Amazon, Flipkart, Nykaa, Myntra, Meesho, Purplle, Tira (marketplaces) + Blinkit, Zepto, Swiggy (quick commerce) + Website (D2C) + Offline/GT</td></tr>
+      <tr><td class="td-label">Manufacturers</td><td>Three third-party contract manufacturers supply all products. Lead time from PO to warehouse receipt: 3 to 4 weeks per manufacturer.</td></tr>
+      <tr><td class="td-label">ERP / WMS</td><td>Unicommerce. Inventory source of truth. Closing stock syncs daily.</td></tr>
+      <tr><td class="td-label">Planning tool today</td><td>Microsoft Excel. Version-named files (V17, V18, V19...) shared over WhatsApp and email. No version control. No access control. No audit trail. No validation logic.</td></tr>
+    </table>
+
+    <div class="h2"><span class="num">1.2</span>What happens during a demand cycle</div>
+    <div class="flow-row">
+      <div class="flow-step"><div class="fs-n">01</div><div class="fs-title">Growth team forecasts</div><div class="fs-sub">Enters expected secondary sales into Excel per channel and SKU.</div></div>
+      <div class="flow-step bad"><div class="fs-n">02</div><div class="fs-title">File shared informally</div><div class="fs-sub">Sent via WhatsApp. No version lock. Changes happen after sharing.</div><div class="fs-warn">No control</div></div>
+      <div class="flow-step bad"><div class="fs-n">03</div><div class="fs-title">SCM computes manually</div><div class="fs-sub">Manual entry of Open PO, GRN, In-Transit. Excel formula runs.</div><div class="fs-warn">Silent error risk</div></div>
+      <div class="flow-step bad"><div class="fs-n">04</div><div class="fs-title">PO raised directly</div><div class="fs-sub">No approval step. No system check. Manufacturer commits from here.</div><div class="fs-warn">No gate</div></div>
+      <div class="flow-step bad"><div class="fs-n">05</div><div class="fs-title">Ops sends alert after</div><div class="fs-sub">Notification fires after PO is committed. Post-hoc accountability only.</div><div class="fs-warn">Too late</div></div>
+    </div>
+
+    <div class="h2"><span class="num">1.3</span>The six failures — confirmed from Feb 2026 data</div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-val warn">67d</div>
+        <div class="stat-label">Sunscreen Matte DOH</div>
+        <div class="stat-note">22d above 45d target. Rs 58L+ locked.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val warn">18d</div>
+        <div class="stat-label">Ceramide Moisturizer</div>
+        <div class="stat-note">Stockout in 2.5 weeks. No alert raised.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val warn">10%</div>
+        <div class="stat-label">M1 PO rate</div>
+        <div class="stat-note">3L units per month in emergency. Target is under 2%.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val accent">+62%</div>
+        <div class="stat-label">Amazon vs AOP</div>
+        <div class="stat-note">Rs 7.07Cr actual vs Rs 4.35Cr plan. Not reflected in procurement.</div>
+      </div>
+    </div>
+
+    <div class="h3">Failure 1 — No accountability before forecast changes land</div>
+    <p class="body">When the growth team revises a demand figure — even a 25% reduction on a high-volume SKU — there is no system check, no justification requirement, and no approval gate. By the time anyone notices, the manufacturer has already begun production based on the previous number. The accountability mechanism (an email from Operations) fires after the commitment, not before it.</p>
+    <div class="callout warn">
+      <div class="callout-label">The real cost</div>
+      <div class="callout-body">Every unjustified demand reduction after a manufacturer commitment represents either wasted procurement spend or a renegotiation penalty. The supply chain team estimates this happens multiple times per month across SKUs.</div>
+    </div>
+
+    <div class="h3">Failure 2 — 10% of orders are M1 emergency purchase orders</div>
+    <p class="body">In a business shipping approximately 30 lakh units per month, 10% as M1 means 3 lakh units per month procured in emergency mode. Both Sunscreen Matte (43,167 units) and Sunscreen Dewy (54,687 units) are M1 POs in the February 2026 cycle — the two highest-volume SKUs — going to the same manufacturer simultaneously.</p>
+
+    <div class="h3">Failure 3 — Simultaneous stockouts and dead stock in the same cycle</div>
+    <p class="body">Ceramide Moisturizer is 18 days from running out. Sunscreen Matte is at 67 days of stock — 22 days above the target. Both conditions exist at the same time, in the same company, in the same month. This is not bad luck. It is the direct output of a forecasting process with no feedback mechanism and no system-enforced accuracy standard.</p>
+
+    <div class="h3">Failure 4 — Silent formula corruption in every PO calculation</div>
+    <p class="body">The PO calculation depends on four inputs. Closing inventory is the only one that auto-syncs from Unicommerce. Open PO, GRN Pending, and In-Transit are manually entered by the supply chain team into Excel every cycle. Any transcription error propagates silently through the entire M1, M2, and M3 calculation. The formula produces a wrong answer that looks exactly like a right answer.</p>
+    <div class="callout warn">
+      <div class="callout-label">Highest technical risk</div>
+      <div class="callout-body">Every inventory forecasting platform operating at this scale auto-syncs these three data points from the WMS. Running them manually is a structural accuracy risk — independent of how well the demand forecast is constructed.</div>
+    </div>
+
+    <div class="h3">Failure 5 — Fear buffer contagion after every stockout</div>
+    <p class="body">When one SKU runs out, the team adds safety buffer to every SKU in the catalogue — not just the one that stocked out. After each stockout event, company-wide Days on Hand increases by approximately 7 to 10 days. Working capital is locked unnecessarily across products that had no supply risk.</p>
+
+    <div class="h3">Failure 6 — Every decision's reasoning is permanently lost</div>
+    <p class="body">When a forecast is revised, when a buffer is added, when a demand target changes — the reasoning is never recorded. Six months later, no one can answer why a particular choice was made. V18, V19, V20 are the entire audit trail. The institutional knowledge of the business lives in people's memories and chat histories, not in a system that can be reviewed, improved, or held accountable.</p>
+
+    <div class="inversion">
+      <div class="inversion-text">"The problem is not that the team is making bad decisions. The problem is that the system makes it <span>impossible</span> to make consistently good ones."</div>
+      <div class="inversion-attr">DevX AI Labs &nbsp;&middot;&nbsp; POV observation &nbsp;&middot;&nbsp; May 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PART 2 — THE SITUATION
+══════════════════════════════════════════ -->
+<div id="page-situation" class="page">
+  <div class="wrap">
+    <span class="eyebrow">Part 02</span>
+    <h1 class="h1">The <em>situation</em></h1>
+    <p class="lead">The business mechanics that make this problem expensive — and the constraints any solution must respect. A replacement system must replicate this logic exactly or the formula outputs will be wrong.</p>
+
+    <div class="h2"><span class="num">2.1</span>Secondary demand vs primary demand</div>
+    <table class="doc-table">
+      <tr><td class="td-label">Secondary demand</td><td>What end customers buy from the marketplace or website. The growth team's monthly target. Measured in units sold by the channel.</td></tr>
+      <tr><td class="td-label">Primary demand</td><td>What Foxtale must procure from manufacturers and hold in its warehouse. Always calculated from secondary — never set independently. Always larger than secondary for marketplace channels.</td></tr>
+      <tr><td class="td-label">The 45-day rule</td><td>Foxtale's warehouse should always hold 45 days of upcoming secondary demand in stock. Manufacturing + shipping = ~30 days. Safety buffer = 15 days. Total = 45-day target DOH.</td></tr>
+      <tr><td class="td-label">When Primary = Secondary</td><td>Website (D2C) and Offline/GT only. Foxtale ships directly — no fulfilment centre buffer layer. No speculative stocking for GT to avoid RTV risk.</td></tr>
     </table>
 
     <div class="h2"><span class="num">2.2</span>The definitive formulas</div>
     <div class="code-block">
-      <div class="code-label">PRIMARY DEMAND — MARKETPLACE CHANNELS (10 CHANNELS)</div>
-      <div class="code-line highlight">Target Closing  =  45 days of projected secondary demand</div>
-      <div class="code-line"> </div>
-      <div class="code-line">Primary Demand  =  Target Closing</div>
-      <div class="code-line">                   - Closing Inventory       <span style="color:#5A7A8A">← auto-pulled from Unicommerce daily</span></div>
-      <div class="code-line">                   - In-Transit Stock        <span style="color:#5A7A8A">← MP In-Transit + WH In-Transit</span></div>
-      <div class="code-line">                   - GRN Pending             <span style="color:#5A7A8A">← dispatched by mfr, not yet received</span></div>
-      <div class="code-line">                   - Open PO                 <span style="color:#5A7A8A">← raised but not yet dispatched</span></div>
-      <div class="code-line highlight">                   + M0 Actual               <span style="color:#5A7A8A">← current month's actual sales to date</span></div>
+      <span class="ca">PRIMARY DEMAND — MARKETPLACE CHANNELS (10 CHANNELS)</span><br><br>
+      Target Closing  =  45 days of projected secondary demand<br><br>
+      Primary Demand  =  Target Closing<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Closing Inventory  <span class="cl">← auto-pulled from Unicommerce daily</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- In-Transit Stock   <span class="cl">← MP In-Transit + WH In-Transit</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- GRN Pending        <span class="cl">← dispatched by mfr, not yet received</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Open PO            <span class="cl">← raised but not yet dispatched</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ca">+ M0 Actual          ← current month's actual sales to date</span>
     </div>
     <div class="code-block">
-      <div class="code-label">PRIMARY DEMAND — WEBSITE &amp; OFFLINE (2 CHANNELS)</div>
-      <div class="code-line">Primary Demand  =  Secondary Demand</div>
-      <div class="code-line" style="color:#5A7A8A">  No FC buffer layer. Foxtale ships direct. No speculative stocking.</div>
+      <span class="ca">PRIMARY DEMAND — WEBSITE AND OFFLINE (2 CHANNELS)</span><br><br>
+      Primary Demand  =  Secondary Demand<br>
+      <span class="cl">No FC buffer layer. Foxtale ships direct. No speculative stocking for GT.</span>
     </div>
     <div class="code-block">
-      <div class="code-label">PO CALCULATION — M1, M2, M3</div>
-      <div class="code-line">base = Target Closing - Closing Inv - In-Transit - GRN Pending - Open PO</div>
-      <div class="code-line">       + Consumption from SNOP date to PO raise date</div>
-      <div class="code-line"> </div>
-      <div class="code-line">M1 PO  =  max(0, base)                          <span style="color:#E24B4A">← should be zero. Non-zero = planning failure.</span></div>
-      <div class="code-line">M2 PO  =  max(0, base - M1 PO)</div>
-      <div class="code-line">M3 PO  =  max(0, base - M1 PO - M2 PO)</div>
-      <div class="code-line"> </div>
-      <div class="code-line highlight">Current M1 rate: ~10%   Target: &lt;2%</div>
+      <span class="ca">PO CALCULATION — M1, M2, M3</span><br><br>
+      base  =  Target Closing - Closing Inv - In-Transit - GRN Pending - Open PO<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ Consumption from SNOP date to PO raise date<br><br>
+      M1 PO  =  max(0, base) <span class="cw">← should be zero. Non-zero = planning failure.</span><br>
+      M2 PO  =  max(0, base - M1 PO)<br>
+      M3 PO  =  max(0, base - M1 PO - M2 PO)<br><br>
+      <span class="ca">Current M1 rate: ~10%     Target: under 2%</span>
     </div>
 
-    <div class="h2"><span class="num">2.3</span>Data sources — and where the risk lives</div>
-    <table class="ds-table">
-      <tr><th>Data input</th><th>Source</th><th>Ingestion</th><th>Owner</th><th>Current risk</th></tr>
-      <tr><td class="ds-name">Closing inventory</td><td>Unicommerce (WMS)</td><td><span class="ing-pill ing-auto">Auto daily</span></td><td>System</td><td style="color:var(--teal)">Low — syncs automatically across all WH and FC locations.</td></tr>
-      <tr><td class="ds-name">Open PO</td><td>Manual entry by SCM</td><td><span class="ing-pill ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--red);font-weight:500">HIGH — any error silently corrupts M1/M2/M3 output. Phase 1 blocker.</td></tr>
-      <tr><td class="ds-name">GRN Pending</td><td>Manual entry by SCM</td><td><span class="ing-pill ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--red);font-weight:500">HIGH — dispatched by mfr, not in WMS yet. Same silent-error risk.</td></tr>
-      <tr><td class="ds-name">In-Transit</td><td>Manual entry by SCM</td><td><span class="ing-pill ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--red);font-weight:500">HIGH — includes marketplace FC transfers and WH-to-FC movements.</td></tr>
-      <tr><td class="ds-name">Secondary demand forecast</td><td>Manual entry, Excel</td><td><span class="ing-pill ing-manual">Manual</span></td><td>Growth team</td><td style="color:var(--amber)">Medium — core demand signal. Depends on justification gate being enforced.</td></tr>
-      <tr><td class="ds-name">AOP targets</td><td>Finance team upload</td><td><span class="ing-pill ing-upload">Annual upload</span></td><td>Finance</td><td style="color:var(--teal)">Low — used for AOP validation only. Non-blocking flag if absent.</td></tr>
-      <tr><td class="ds-name">Historical actuals</td><td>Unicommerce / MIS</td><td><span class="ing-pill ing-auto">Auto monthly</span></td><td>System</td><td style="color:var(--teal)">Low — 24 months available and clean. Foundation for ML baseline forecast.</td></tr>
+    <div class="h2"><span class="num">2.3</span>Data sources and where the risk lives</div>
+    <table class="doc-table">
+      <thead><tr><th>Data input</th><th>Source</th><th>Ingestion</th><th>Owner</th><th>Current risk</th></tr></thead>
+      <tr><td class="td-label">Closing inventory</td><td>Unicommerce</td><td><span class="ing ing-auto">Auto daily</span></td><td>System</td><td>Low — syncs automatically across all WH and FC locations.</td></tr>
+      <tr><td class="td-label">Open PO</td><td>Manual entry</td><td><span class="ing ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--warn);font-weight:500">HIGH — any error silently corrupts M1/M2/M3. Phase 1 blocker.</td></tr>
+      <tr><td class="td-label">GRN Pending</td><td>Manual entry</td><td><span class="ing ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--warn);font-weight:500">HIGH — dispatched by mfr, not in WMS. Same silent-error risk.</td></tr>
+      <tr><td class="td-label">In-Transit</td><td>Manual entry</td><td><span class="ing ing-manual">Manual</span></td><td>SCM team</td><td style="color:var(--warn);font-weight:500">HIGH — marketplace FC transfers and WH-to-FC movements.</td></tr>
+      <tr><td class="td-label">Secondary demand</td><td>Excel / platform</td><td><span class="ing ing-manual">Manual</span></td><td>Growth team</td><td>Medium — core demand signal. Depends on justification gate.</td></tr>
+      <tr><td class="td-label">AOP targets</td><td>Finance upload</td><td><span class="ing ing-upload">Annual</span></td><td>Finance</td><td>Low — AOP validation only. Non-blocking flag if absent.</td></tr>
+      <tr><td class="td-label">Historical actuals</td><td>Unicommerce/MIS</td><td><span class="ing ing-auto">Auto monthly</span></td><td>System</td><td>Low — 24 months clean. Foundation for ML baseline forecast.</td></tr>
     </table>
-    <div class="callout red"><div class="callout-label">Phase 1 go-live prerequisite</div><div class="callout-text">Open PO, GRN Pending, and In-Transit must be auto-synced from Unicommerce before the platform goes live. Running these manually on the platform is no safer than running them on Excel. This is the single highest technical dependency in Phase 1.</div></div>
+
+    <div class="callout warn">
+      <div class="callout-label">Phase 1 go-live prerequisite</div>
+      <div class="callout-body">Open PO, GRN Pending, and In-Transit must be auto-synced from Unicommerce before the platform goes live. Running these manually on the platform is no safer than running them on Excel. This is the single highest technical dependency in Phase 1.</div>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      PART 3 — THE SOLUTION
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="page-solution" class="page">
-  <div class="doc-page wide">
-    <div class="part-label">Part 3</div>
+  <div class="wrap-wide">
+    <span class="eyebrow">Part 03</span>
     <h1 class="h1">The <em>solution</em></h1>
     <p class="lead">Seven features built in Phase 1. Each one closes a specific gap identified in Part 1. Nothing added speculatively. The architecture is designed to connect forward into Phases 2 and 3.</p>
 
-    <div class="h2"><span class="num">3.1</span>What we are replacing — and what we are not</div>
-    <p class="body">We are not digitising the current broken process. We are replacing it entirely with one that enforces rules the business already knows are right, but has no system to implement.</p>
+    <div class="h2"><span class="num">3.1</span>Current state vs target state</div>
     <table class="compare-table">
       <tr><th>Dimension</th><th>Today (Excel + WhatsApp)</th><th>After (Platform)</th></tr>
-      <tr><td class="ct-dim">Demand input</td><td class="ct-bad">Growth team fills Excel per channel, shares via WhatsApp</td><td class="ct-good">Structured platform per channel. Model-generated baseline pre-filled. Submission versioned and locked.</td></tr>
+      <tr><td class="ct-dim">Demand input</td><td class="ct-bad">Growth team fills Excel per channel, shares via WhatsApp</td><td class="ct-good">Platform per channel. Model-generated baseline pre-filled. Versioned and locked.</td></tr>
       <tr><td class="ct-dim">Pre-submission check</td><td class="ct-bad">None. PO committed before any alert fires.</td><td class="ct-good">System validates every submission before it is accepted. Blocks non-compliant changes.</td></tr>
       <tr><td class="ct-dim">Inventory data</td><td class="ct-bad">Open PO + GRN + In-Transit entered manually each cycle</td><td class="ct-good">All four inputs auto-synced from Unicommerce. Zero manual entry. No silent errors.</td></tr>
-      <tr><td class="ct-dim">PO calculation</td><td class="ct-bad">Manual Excel formula, recalculated each cycle by SCM</td><td class="ct-good">Auto-computed by platform engine. SCM reviews and approves. PO auto-raised on Unicommerce.</td></tr>
-      <tr><td class="ct-dim">Approval</td><td class="ct-bad">No formal approval. PO raised directly.</td><td class="ct-good">5-stage flow: system computes → SCM reviews → analytics monitors → SCM approves → Unicommerce executes.</td></tr>
+      <tr><td class="ct-dim">PO calculation</td><td class="ct-bad">Manual Excel formula, recalculated each cycle by SCM</td><td class="ct-good">Auto-computed by platform. SCM reviews and approves. PO auto-raised on Unicommerce.</td></tr>
+      <tr><td class="ct-dim">Approval</td><td class="ct-bad">No formal approval. PO raised directly.</td><td class="ct-good">5-stage: system computes — SCM reviews — analytics monitors — SCM approves — Unicommerce executes.</td></tr>
       <tr><td class="ct-dim">Audit trail</td><td class="ct-bad">V18, V19, V20 file names. Easily corrupted.</td><td class="ct-good">Every submission immutably versioned. Approver, timestamp, justification stored permanently.</td></tr>
-      <tr><td class="ct-dim">Forecast quality</td><td class="ct-bad">No feedback. Teams do not see their own accuracy.</td><td class="ct-good">MAPE score per channel team. Variance dashboard. Accuracy visible and improvable.</td></tr>
-      <tr><td class="ct-dim">M1 PO rate</td><td class="ct-bad">~10% of total PO value. Planning failure.</td><td class="ct-good">Target &lt;2%. System alerts when ratio rises. Primary Phase 1 KPI.</td></tr>
+      <tr><td class="ct-dim">M1 PO rate</td><td class="ct-bad">~10% of total PO value</td><td class="ct-good">Target under 2%. System alerts when ratio rises. Primary Phase 1 KPI.</td></tr>
     </table>
 
-    <div class="h2"><span class="num">3.2</span>Feature 1 — Intelligent demand input with model-generated baseline</div>
-    <div class="feature-block">
-      <div class="fb-header">
-        <div class="fb-num" style="color:var(--gold)">01</div>
-        <div class="fb-meta">
-          <div class="fb-category">Foundation · ML Layer</div>
-          <div class="fb-title">The growth team no longer opens a blank form. They open a pre-filled table.</div>
-        </div>
+    <div class="h2"><span class="num">3.2</span>The seven features</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-num">01 &nbsp;·&nbsp; Foundation + ML</div>
+        <div class="fc-title">Intelligent demand input with model-generated baseline</div>
+        <div class="fc-body">The growth team no longer opens a blank form. They open a pre-filled table. Model-generated M1 to M4 forecasts for every SKU and channel. Three model tracks: stable SKUs (AZ/BZ, ~85% auto), volatile SKUs (AX/BX/AY, ~65% model + human), new launches (CX, ~10% analogue baseline). Confidence shown per cell. Human accepts, overrides with reason tag, or adds context. Every override becomes training data.</div>
+        <div class="fc-outcome">Time per cycle: 2-3 days today — 3-4 hours after go-live</div>
       </div>
-      <div class="fb-body">
-        <p class="fb-desc">For every SKU and every channel, the system has already produced a model-generated baseline forecast for the next four months. The team reviews, adjusts what they know needs adjusting, and submits. Every override becomes training data for the next cycle.</p>
-        <p class="fb-desc"><strong>Three model tracks:</strong> Stable SKUs (AZ/BZ — ~85% auto-forecastable by statistical model). Volatile SKUs (AX/BX/AY — ~65% model + human review, range forecast). New launches (CX — ~10%, analogue lookup, human leads). Confidence shown per cell: green (high, AZ/BZ), yellow (review, AX/BX), red (new launch, CX).</p>
-        <p class="fb-desc"><strong>Human-in-loop flow:</strong> Accept (auto-submits) · Override + justify + tag (reason stored as training data) · Add context (Sale event, Campaign drop, MRP change — captured systematically for first time).</p>
-        <p class="fb-desc"><strong>Feedback loop:</strong> Each cycle close triggers MAPE calculation per channel team, bias detection, override pattern analysis, and monthly model retrain. The model improves every cycle.</p>
-        <div class="fb-features">
-          <span class="fb-tag">12 channels</span><span class="fb-tag">25+ SKUs</span><span class="fb-tag">24mo historical actuals</span>
-          <span class="fb-tag">Green / Yellow / Red confidence</span><span class="fb-tag">Override reason tags</span>
-          <span class="fb-tag">Monthly model retrain</span><span class="fb-tag">Immutable versioning</span>
-        </div>
-        <div class="fb-outcome teal">→ Time spent per cycle drops from 2–3 days to 3–4 hours. Blank-slate guesswork becomes data-anchored review.</div>
+      <div class="feature-card">
+        <div class="fc-num">02 &nbsp;·&nbsp; Accountability</div>
+        <div class="fc-title">Pre-submission validation gates A and B</div>
+        <div class="fc-body">Gate A: system compares current entry to M-1, M-2, M-3 prior submissions. If |variance %| exceeds threshold, Submit is disabled. Justification text (min 20 chars) + reason tag (Competitor launch / Sale event / Campaign change / MRP change / Other) both required before re-enabling. AX SKUs: 10% threshold. All others: 20%. Configurable by analytics without engineering. Gate B: AOP alignment check. Warning, not a block.</div>
+        <div class="fc-outcome">First gate in Foxtale history that fires before the manufacturer is impacted</div>
       </div>
-    </div>
-
-    <div class="h2"><span class="num">3.3</span>Feature 2 — Pre-submission validation gates (Gate A + Gate B)</div>
-    <div class="feature-block">
-      <div class="fb-header">
-        <div class="fb-num" style="color:var(--red)">02</div>
-        <div class="fb-meta">
-          <div class="fb-category">Accountability</div>
-          <div class="fb-title">Before any submission is accepted, two automatic checks run. These are not suggestions. They are gates.</div>
-        </div>
+      <div class="feature-card">
+        <div class="fc-num">03 &nbsp;·&nbsp; Foundation</div>
+        <div class="fc-title">Primary demand and M1/M2/M3 PO auto-calculation</div>
+        <div class="fc-body">Once demand is submitted and validated, the platform computes primary demand and M1, M2, M3 PO quantities automatically for every SKU and manufacturer. All four inventory inputs pulled from Unicommerce in real time. M1 POs flagged as a planning failure signal. PO output grouped by manufacturer, formatted for Unicommerce upload.</div>
+        <div class="fc-outcome">M1 PO rate from ~10% to under 2% within 6 months of go-live</div>
       </div>
-      <div class="fb-body">
-        <p class="fb-desc"><strong>Gate A — Demand variance alert:</strong> System compares current entry to M-1, M-2, M-3 prior submissions. If |Variance %| exceeds the threshold, the Submit button is disabled. A justification drawer appears — free text (min 20 characters) + reason tag (Competitor launch / Sale event / Campaign change / Product issue / MRP change / Other). Both required before submission re-enables.</p>
-        <div class="code-block" style="margin:10px 0">
-          <div class="code-label">VARIANCE CHECK</div>
-          <div class="code-line">Variance % = (Current - Prior Submission) / Prior Submission × 100</div>
-          <div class="code-line highlight">AX SKUs: threshold = 10%   ·   All others: threshold = 20%   ·   Configurable by Analytics</div>
-        </div>
-        <p class="fb-desc"><strong>Gate B — AOP alignment check:</strong> Sum of demand GMV (units × MRP) across all channels compared against Finance AOP monthly target. Deviation above threshold triggers an Analytics notification. Warning gate — does not block submission.</p>
-        <div class="fb-features">
-          <span class="fb-tag">Submit button disabled on flag</span><span class="fb-tag">Justification text + reason tag</span>
-          <span class="fb-tag">Manufacturer impact preview</span><span class="fb-tag">AOP deviation warning</span>
-          <span class="fb-tag">Per-tier thresholds</span><span class="fb-tag">Configurable without engineering</span>
-        </div>
-        <div class="fb-outcome teal">→ The first gate in the history of Foxtale's demand process that fires before the manufacturer is impacted, not after.</div>
+      <div class="feature-card">
+        <div class="fc-num">04 &nbsp;·&nbsp; Governance</div>
+        <div class="fc-title">5-stage maker-checker approval flow</div>
+        <div class="fc-body">System computes — SCM reviews computed POs against capacity and budget — Analytics monitors and flags deviations — SCM approves with one click (approver logged with timestamp) — Unicommerce auto-raises PO and notifies manufacturer. Approver cannot be the submitter. Slack notification, 24-hour SLA, automatic escalation if not actioned. Full permanent audit log, 24-month retention.</div>
+        <div class="fc-outcome">Every decision auditable in 3 seconds. "Who approved this?" has an answer.</div>
+      </div>
+      <div class="feature-card">
+        <div class="fc-num">05 &nbsp;·&nbsp; Intelligence</div>
+        <div class="fc-title">M-1 / M-2 / M-3 variance tracking with MAPE</div>
+        <div class="fc-body">For every SKU and channel, shows how the forecast for each month evolved across submission cycles. Reveals systematic drift patterns — like Sunscreen Matte declining 4 consecutive cycles without detection. MAPE score per channel team updated monthly. Teams with lower accuracy face tighter gate thresholds automatically. Pattern alert: same SKU drifts more than 10% for 3+ consecutive cycles.</div>
+        <div class="fc-outcome">Forecasting quality becomes a measurable, improvable metric</div>
+      </div>
+      <div class="feature-card">
+        <div class="fc-num">06 &nbsp;·&nbsp; Intelligence</div>
+        <div class="fc-title">ABC x XYZ SKU classification matrix</div>
+        <div class="fc-body">Every SKU auto-classified into one of nine buckets by revenue contribution (ABC) and forecast variance (XYZ). AX SKUs — highest revenue, most volatile — receive weekly review and 10% threshold. CZ SKUs receive quarterly oversight and 25% threshold. Classification auto-computed monthly from actual sales and variance data. No manual tagging.</div>
+        <div class="fc-outcome">The right level of attention on the right products, automatically</div>
       </div>
     </div>
 
-    <div class="h2"><span class="num">3.4</span>Feature 3 — Primary demand + M1/M2/M3 PO auto-calculation</div>
-    <div class="feature-block">
-      <div class="fb-header">
-        <div class="fb-num" style="color:var(--teal)">03</div>
-        <div class="fb-meta">
-          <div class="fb-category">Foundation</div>
-          <div class="fb-title">The SCM team sees outputs, not a spreadsheet to fill. POs auto-raised on Unicommerce after approval.</div>
-        </div>
-      </div>
-      <div class="fb-body">
-        <p class="fb-desc">Once demand is submitted and validated, the platform computes primary demand and M1/M2/M3 PO quantities automatically for every SKU and manufacturer. All four inventory inputs pulled from Unicommerce in real time. M1 POs flagged red as a planning failure signal. PO output grouped by manufacturer, formatted for Unicommerce upload — no re-entry required.</p>
-        <div class="fb-features">
-          <span class="fb-tag">45-day formula for marketplace</span><span class="fb-tag">Primary = Secondary for Website/Offline</span>
-          <span class="fb-tag">M0 Actual correction</span><span class="fb-tag">M1 red flag + dashboard KPI</span>
-          <span class="fb-tag">Manufacturer-grouped PO output</span><span class="fb-tag">Unicommerce auto-raise on approval</span>
-        </div>
-        <div class="fb-outcome teal">→ Drive M1 PO rate from ~10% to under 2% within 6 months of go-live.</div>
-      </div>
-    </div>
-
-    <div class="h2"><span class="num">3.5</span>Feature 4 — 5-stage maker-checker approval flow</div>
-    <div class="feature-block">
-      <div class="fb-header">
-        <div class="fb-num" style="color:var(--ink)">04</div>
-        <div class="fb-meta">
-          <div class="fb-category">Governance</div>
-          <div class="fb-title">Every demand change and PO passes through a formal approval chain. Permanent audit log. 24-month retention.</div>
-        </div>
-      </div>
-      <div class="fb-body">
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
-          <div style="text-align:center;padding:10px 6px;background:var(--canvas);border-radius:6px;font-size:11px"><div style="font-weight:600;color:var(--ink);margin-bottom:3px">System</div><div style="color:var(--ink4)">Computes M1/M2/M3</div></div>
-          <div style="text-align:center;padding:10px 6px;background:var(--canvas);border-radius:6px;font-size:11px"><div style="font-weight:600;color:var(--ink);margin-bottom:3px">SCM reviews</div><div style="color:var(--ink4)">Checks capacity + budget</div></div>
-          <div style="text-align:center;padding:10px 6px;background:var(--canvas);border-radius:6px;font-size:11px"><div style="font-weight:600;color:var(--ink);margin-bottom:3px">Analytics</div><div style="color:var(--ink4)">Flags deviations</div></div>
-          <div style="text-align:center;padding:10px 6px;background:var(--canvas);border-radius:6px;font-size:11px"><div style="font-weight:600;color:var(--ink);margin-bottom:3px">SCM approves</div><div style="color:var(--ink4)">1-click. Logged.</div></div>
-          <div style="text-align:center;padding:10px 6px;background:var(--teal-l);border-radius:6px;font-size:11px;border:1px solid rgba(45,107,90,.2)"><div style="font-weight:600;color:var(--teal);margin-bottom:3px">Unicommerce</div><div style="color:var(--teal)">PO auto-raised</div></div>
-        </div>
-        <div class="fb-features">
-          <span class="fb-tag">Slack notifications</span><span class="fb-tag">24-hour SLA + escalation</span>
-          <span class="fb-tag">Approver ≠ submitter</span><span class="fb-tag">Permanent audit log</span>
-          <span class="fb-tag">24-month retention</span><span class="fb-tag">CSV export for compliance</span>
-        </div>
-        <div class="fb-outcome teal">→ Every decision auditable for 24 months. "Who approved this?" has an answer in 3 seconds.</div>
-      </div>
-    </div>
-
-    <div class="h2"><span class="num">3.6</span>Features 5, 6, 7 — Intelligence layer</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-      <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px">
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Feature 5</div>
-        <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">M-1/M-2/M-3 Variance Tracking</div>
-        <p style="font-size:12.5px;color:var(--ink3);line-height:1.65">How the forecast for each month evolved across submission cycles. Reveals systematic drift patterns — like Sunscreen Matte declining 4 consecutive cycles without anyone noticing.</p>
-        <div style="margin-top:10px;font-size:11px;color:var(--teal);font-weight:500">MAPE score per channel team · Pattern alerts after 3+ cycle drift</div>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px">
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Feature 6</div>
-        <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">ABC × XYZ SKU Matrix</div>
-        <p style="font-size:12.5px;color:var(--ink3);line-height:1.65">Every SKU auto-classified by revenue contribution (ABC) and forecast variance (XYZ). AX SKUs — highest revenue, most volatile — get weekly review and tighter 10% threshold. CZ SKUs get quarterly oversight.</p>
-        <div style="margin-top:10px;font-size:11px;color:var(--teal);font-weight:500">Auto-classification monthly · Tier-based thresholds · No manual tagging</div>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px">
-        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Feature 7</div>
-        <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">External Context Capture</div>
-        <p style="font-size:12.5px;color:var(--ink3);line-height:1.65">Structured context tags per submission — Sale Event (Big Billion Days), Campaign Drop, MRP Change, New Listing. This contextual data currently lives only in WhatsApp messages. Capturing it systematically is what makes the model learn over time.</p>
-        <div style="margin-top:10px;font-size:11px;color:var(--teal);font-weight:500">Stored with demand record · Feeds model retrain · Pattern library builds over time</div>
-      </div>
+    <div style="background:var(--paper-2);padding:24px;border-left:1px solid var(--rule);margin-top:1px">
+      <div class="fc-num">07 &nbsp;·&nbsp; Intelligence</div>
+      <div class="fc-title" style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">External context capture per submission</div>
+      <div class="fc-body">Structured context tags per submission — Sale Event (Big Billion Days), Campaign Drop, MRP Change, New Listing, Influencer Push. This contextual data currently lives only in WhatsApp messages. Capturing it systematically is what makes the model learn from events, not just from numbers. Tags stored permanently with the demand record and fed into monthly model retrain.</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      PART 4 — HOW IT WORKS
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="page-how" class="page">
-  <div class="doc-page">
-    <div class="part-label">Part 4</div>
+  <div class="wrap">
+    <span class="eyebrow">Part 04</span>
     <h1 class="h1">How it <em>works</em></h1>
     <p class="lead">A single demand cycle from the moment the growth team opens the platform to the moment a purchase order lands at the manufacturer. This is the full user journey after Phase 1 is live.</p>
 
     <div class="h2"><span class="num">4.1</span>The demand cycle — step by step</div>
-    <div style="counter-reset:steps">
-      <style>.step-item{display:grid;grid-template-columns:32px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--rule)}.step-item:last-child{border-bottom:none}.step-n{font-family:var(--font-m);font-size:13px;font-weight:500;color:var(--gold-d);padding-top:2px}.step-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}.step-b{font-size:13.5px;color:var(--ink3);line-height:1.7}</style>
-      <div class="step-item"><div class="step-n">01</div><div><div class="step-t">Growth team opens the platform on the first working day of the demand window</div><div class="step-b">The platform shows each channel's demand input screen with baseline figures pre-populated from the previous 3 months of actuals. For each SKU across M1 to M4, the team reviews the baseline and adjusts for known factors.</div></div></div>
-      <div class="step-item"><div class="step-n">02</div><div><div class="step-t">Pre-submission checks run in real time as they type</div><div class="step-b">If a change exceeds the SKU's variance threshold, the Submit button is disabled and a red justification drawer appears. The submitter cannot proceed without a written reason and a reason tag.</div></div></div>
-      <div class="step-item"><div class="step-n">03</div><div><div class="step-t">AOP alignment check fires on the full submission</div><div class="step-b">Total demand GMV for the month compared to the Annual Operating Plan. If material deviation, Analytics team is notified. Warning, not a block.</div></div></div>
-      <div class="step-item"><div class="step-n">04</div><div><div class="step-t">Submission locked and versioned</div><div class="step-b">System immediately computes primary demand for every SKU and channel, pulling inventory data from Unicommerce in real time. Any revision creates a new version and re-runs all checks.</div></div></div>
-      <div class="step-item"><div class="step-n">05</div><div><div class="step-t">M1, M2, M3 PO quantities calculated per SKU per manufacturer</div><div class="step-b">M1 POs flagged in red. Any PO that deviates significantly from the prior cycle flagged for Analytics review. Output grouped by manufacturer.</div></div></div>
-      <div class="step-item"><div class="step-n">06</div><div><div class="step-t">SCM team receives the PO quantities for review</div><div class="step-b">Interface shows old quantity, new quantity, variance from prior cycle, and growth team's justification if one was required. Approver sees all context needed to decide in 30 seconds.</div></div></div>
-      <div class="step-item"><div class="step-n">07</div><div><div class="step-t">SCM approves with one click</div><div class="step-b">Logged: who, when, with what comment. Analytics team can see this log at any time. The approver cannot be the submitter.</div></div></div>
-      <div class="step-item"><div class="step-n">08</div><div><div class="step-t">Approved POs auto-raised on Unicommerce</div><div class="step-b">Manufacturer notified. No manual re-entry. No email required. The SCM team does not touch a spreadsheet.</div></div></div>
+    <div style="border-top:1px solid var(--rule)">
+      <div class="query-item"><div class="q-n">01</div><div><div class="q-title">Growth team opens the platform on the first working day of the demand window</div><div class="q-body">The platform shows each channel's demand input screen with baseline figures pre-populated from the previous 3 months of actuals. For each SKU across M1 to M4, the team reviews the baseline and adjusts for known factors.</div></div></div>
+      <div class="query-item"><div class="q-n">02</div><div><div class="q-title">Pre-submission checks run in real time as they type</div><div class="q-body">If a change exceeds the SKU's variance threshold, the Submit button is disabled and a justification drawer appears. The submitter cannot proceed without a written reason and a reason tag. Both stored permanently.</div></div></div>
+      <div class="query-item"><div class="q-n">03</div><div><div class="q-title">AOP alignment check fires on the full submission</div><div class="q-body">Total demand GMV for the month compared to the Annual Operating Plan. If material deviation, Analytics team notified. Warning gate — does not block submission.</div></div></div>
+      <div class="query-item"><div class="q-n">04</div><div><div class="q-title">Submission locked and versioned</div><div class="q-body">System immediately computes primary demand for every SKU and channel, pulling inventory data from Unicommerce in real time. Any revision creates a new version and re-runs all checks.</div></div></div>
+      <div class="query-item"><div class="q-n">05</div><div><div class="q-title">M1, M2, M3 PO quantities calculated per SKU per manufacturer</div><div class="q-body">M1 POs flagged as planning failure signal. Any PO that deviates significantly from the prior cycle flagged for Analytics review. Output grouped by manufacturer.</div></div></div>
+      <div class="query-item"><div class="q-n">06</div><div><div class="q-title">SCM team receives the PO quantities for review and approval</div><div class="q-body">Interface shows old quantity, new quantity, variance from prior cycle, and the growth team's justification if one was required. Approver sees all context needed to decide in 30 seconds.</div></div></div>
+      <div class="query-item"><div class="q-n">07</div><div><div class="q-title">SCM approves with one click — logged with timestamp</div><div class="q-body">Approver identity and timestamp stored permanently. Approver cannot be the submitter. Analytics team can see the full log at any time.</div></div></div>
+      <div class="query-item"><div class="q-n">08</div><div><div class="q-title">Approved POs auto-raised on Unicommerce — manufacturer notified</div><div class="q-body">No manual re-entry. No email required. The SCM team does not touch a spreadsheet.</div></div></div>
     </div>
 
-    <div class="h2"><span class="num">4.2</span>What changes on Monday morning</div>
+    <div class="h2"><span class="num">4.2</span>Monday morning — before and after</div>
     <div class="ba-grid">
       <div class="ba-card ba-before">
-        <div class="ba-label">Today</div>
+        <div class="ba-eyebrow">Today</div>
         <div class="ba-title">6 hours building the model</div>
-        <div class="ba-text">Compiling channel files. Running Excel formulas. Chasing missing data. Manually entering Open PO, GRN, and In-Transit figures. Recalculating after late submissions. Emailing PO numbers to manufacturers. The team's intelligence is consumed by making the spreadsheet correct, not by making good decisions.</div>
+        <div class="ba-body">Compiling channel files. Running Excel formulas. Chasing missing data. Manually entering Open PO, GRN, and In-Transit figures. Recalculating after late submissions. Emailing PO numbers to manufacturers. The team's intelligence is consumed by making the spreadsheet correct, not by making good decisions.</div>
       </div>
       <div class="ba-card ba-after">
-        <div class="ba-label">After Phase 1</div>
+        <div class="ba-eyebrow">After Phase 1</div>
         <div class="ba-title">30 minutes reviewing exceptions</div>
-        <div class="ba-text">The platform ran overnight. The team opens the dashboard and sees: which SKUs breached DOH thresholds, which forecast changes need approval, which M1 POs are forming. They review, approve where appropriate, escalate where needed. The calculation is done. The decision is theirs.</div>
+        <div class="ba-body">The platform ran overnight. The team opens the dashboard and sees: which SKUs breached DOH thresholds, which forecast changes need approval, which M1 POs are forming. They review, approve where appropriate, escalate where needed. The calculation is done. The decision is theirs.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      PART 5 — WHERE IT FAILS
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="page-risks" class="page">
-  <div class="doc-page wide">
-    <div class="part-label">Part 5</div>
+  <div class="wrap">
+    <span class="eyebrow">Part 05</span>
     <h1 class="h1">Where it can <em>fail</em></h1>
     <p class="lead">Every supply chain planning platform fails in predictable ways. Having reviewed 15+ live platforms at similar scale, these are the failure modes designed against — not to discover after go-live.</p>
 
     <div class="h2"><span class="num">5.1</span>Risk register</div>
     <table class="risk-table">
-      <tr><th style="width:35%">Failure point</th><th style="width:10%">Prob</th><th style="width:10%">Impact</th><th>How we prevent it</th></tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">Unicommerce integration delayed — Open PO, GRN, In-Transit remain manual</td>
-        <td><span class="rt-high">High</span></td><td><span class="rt-high">High</span></td>
-        <td>Non-negotiable Phase 1 go-live prerequisite. Platform launch paused if Unicommerce API not available by Week 2. Manual inputs on platform = no safer than Excel.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">SNOP date and manufacturer lead times not confirmed before coding</td>
-        <td><span class="rt-high">High</span></td><td><span class="rt-high">High</span></td>
-        <td>These are Q6 and Q7 in the open queries list. Formula includes consumption from SNOP date to PO raise date — a variable requiring these confirmed values. Must resolve before Week 3.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">Growth team submits on WhatsApp anyway — platform runs parallel to Excel</td>
-        <td><span class="rt-high">High</span></td><td><span class="rt-high">High</span></td>
-        <td>Requires a firm cutoff date from Foxtale leadership. The date after which Operations will not accept any submission made outside the platform. Without this, Excel wins.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">Flat 45-day rule applied to all SKUs causes structural over/under-stocking</td>
-        <td><span class="rt-med">Medium</span></td><td><span class="rt-high">High</span></td>
-        <td>Per-SKU DoD targets part of Phase 1 design. Stable SKUs need less buffer; new launches need more. Analytics team configures in first 2 cycles based on actuals. Must confirm Q4.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">B2B outright channel formula not resolved (Nykaa B2B, Purplle, Tira)</td>
-        <td><span class="rt-med">Medium</span></td><td><span class="rt-high">High</span></td>
-        <td>Wrong formula for outright channels overstates procurement by 1.5× per order. Must confirm Q5 before channel formulas are coded.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">Fear buffers migrate into platform via generic justifications</td>
-        <td><span class="rt-med">Medium</span></td><td><span class="rt-med">Medium</span></td>
-        <td>Analytics team monitors justification quality in first 3 cycles. Generic justifications ("seasonal adjustment") flagged for follow-up. Gate quality reviewed monthly.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">Spend data and sale event calendar unavailable — model cannot distinguish campaign spikes from organic growth</td>
-        <td><span class="rt-med">Medium</span></td><td><span class="rt-med">Medium</span></td>
-        <td>Model still works on actuals and time features. Accuracy lower for AX/BX during campaign months. Context tags from growth team submissions compensate from cycle 3 onwards. Confirms Q9 and Q10.</td>
-      </tr>
-      <tr>
-        <td style="font-weight:500;color:var(--ink)">MAPE scoring creates conservative gaming behaviour</td>
-        <td><span class="rt-low">Low</span></td><td><span class="rt-med">Medium</span></td>
-        <td>MAPE scores kept as internal diagnostic tools for first 3 cycles — not disclosed as threshold-setting inputs until system stabilises.</td>
-      </tr>
+      <tr><th style="width:40%">Failure point</th><th style="width:10%">Probability</th><th style="width:10%">Impact</th><th>Prevention</th></tr>
+      <tr><td class="rt-risk">Unicommerce integration delayed — Open PO, GRN, In-Transit remain manual</td><td><span class="risk-high">High</span></td><td><span class="risk-high">High</span></td><td>Non-negotiable go-live prerequisite. Platform launch paused if API not available by Week 2. Manual inputs on platform = no safer than Excel.</td></tr>
+      <tr><td class="rt-risk">SNOP date and manufacturer lead times not confirmed before coding</td><td><span class="risk-high">High</span></td><td><span class="risk-high">High</span></td><td>Q6 and Q7 in open queries. Formula includes consumption from SNOP date to PO raise date — a variable requiring these confirmed values. Must resolve before Week 3.</td></tr>
+      <tr><td class="rt-risk">Growth team submits on WhatsApp anyway — platform runs parallel to Excel</td><td><span class="risk-high">High</span></td><td><span class="risk-high">High</span></td><td>Requires a firm cutoff date from Foxtale leadership. After that date, Operations will not accept any submission made outside the platform. Without this, Excel wins.</td></tr>
+      <tr><td class="rt-risk">Flat 45-day rule applied to all SKUs causes structural over/under-stocking</td><td><span class="risk-med">Medium</span></td><td><span class="risk-high">High</span></td><td>Per-SKU DoD targets part of Phase 1 design. Analytics team configures in first 2 cycles based on actuals. Must confirm Q4.</td></tr>
+      <tr><td class="rt-risk">B2B outright channel formula not resolved — Nykaa B2B, Purplle, Tira</td><td><span class="risk-med">Medium</span></td><td><span class="risk-high">High</span></td><td>Wrong formula overstates procurement by 1.5x per outright order. Must confirm Q5 before channel formulas are coded.</td></tr>
+      <tr><td class="rt-risk">Fear buffers migrate into platform via generic justifications</td><td><span class="risk-med">Medium</span></td><td><span class="risk-med">Medium</span></td><td>Analytics team monitors justification quality in first 3 cycles. Generic justifications ("seasonal adjustment") flagged for follow-up.</td></tr>
+      <tr><td class="rt-risk">Spend data and sale event calendar unavailable — model cannot distinguish campaign spikes from organic growth</td><td><span class="risk-med">Medium</span></td><td><span class="risk-med">Medium</span></td><td>Model still works on actuals and time features. Context tags from growth team submissions compensate from cycle 3 onwards. Confirm Q9 and Q10.</td></tr>
+      <tr><td class="rt-risk">MAPE scoring creates conservative gaming behaviour</td><td><span class="risk-low">Low</span></td><td><span class="risk-med">Medium</span></td><td>MAPE scores kept as internal diagnostic tools for first 3 cycles — not disclosed as threshold inputs until system stabilises.</td></tr>
     </table>
 
     <div class="h2"><span class="num">5.2</span>Open queries — must confirm before coding begins</div>
-    <p class="body">These are not design decisions. They are factual questions about business rules that only Foxtale can answer. No assumptions will be made.</p>
-    <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:0 20px">
-      <div class="query-item"><div class="q-num">Q1</div><div class="q-content"><div class="q-title">Demand cycle dates</div><div class="q-body">What is the fixed open and close date each month? Can demand be revised after submission within the same cycle, and if so, how many revisions are allowed?</div></div></div>
-      <div class="query-item"><div class="q-num">Q2</div><div class="q-content"><div class="q-title">Variance threshold</div><div class="q-body">Is the alert threshold a single global figure (20%), or does it vary by ABC/XYZ tier? Is the AX threshold already decided as 10%?</div></div></div>
-      <div class="query-item"><div class="q-num">Q3</div><div class="q-content"><div class="q-title">Approval chain</div><div class="q-body">Who is notified first — growth team or analytics? Who has authority to approve a demand change? What is the expected SLA in hours? Is Slack the agreed approval surface?</div></div></div>
-      <div class="query-item"><div class="q-num">Q4</div><div class="q-content"><div class="q-title">45-day rule flexibility</div><div class="q-body">Is the 45-day buffer fixed for all SKUs, or does it vary — e.g., sunscreen higher in March to May, quick commerce channels lower due to faster replenishment cycles?</div></div></div>
-      <div class="query-item"><div class="q-num">Q5</div><div class="q-content"><div class="q-title">B2B outright channels</div><div class="q-body">Are Nykaa B2B, Purplle, and Tira treated identically to B2C marketplace channels for primary demand derivation, or does the outright model change the formula?</div></div></div>
-      <div class="query-item"><div class="q-num">Q6</div><div class="q-content"><div class="q-title">SNOP date</div><div class="q-body">Is the S&OP review meeting on a fixed day each month? Who sets it? This is a critical variable in the M1 formula — determines consumption from SNOP to PO raise date.</div></div></div>
-      <div class="query-item"><div class="q-num">Q7</div><div class="q-content"><div class="q-title">Manufacturer lead times</div><div class="q-body">Is lead time currently tracked per manufacturer or not at all? A 60-day lead time effectively makes every M3 PO an M1. This determines which PO bucket each demand signal falls into.</div></div></div>
-      <div class="query-item"><div class="q-num">Q8</div><div class="q-content"><div class="q-title">Offline/GT submission</div><div class="q-body">Is Offline/GT demand submitted by the same growth team or by a separate sales team on a different cadence?</div></div></div>
-      <div class="query-item"><div class="q-num">Q9</div><div class="q-content"><div class="q-title">Marketing spend granularity</div><div class="q-body">Is daily or weekly spend data available from Meta Ads Manager, Google Ads, Amazon Ads Console, or Blinkit/Zepto dashboards? Monthly totals exist in Excel but daily/weekly granularity is needed for the model to learn demand-lag from spend spikes.</div></div></div>
-      <div class="query-item"><div class="q-num">Q10</div><div class="q-content"><div class="q-title">Sale event calendar</div><div class="q-body">Does a record exist of which months had major platform sale events (Amazon GIF, Flipkart BBD, Nykaa Pink Friday, Republic Day) and the approximate observed demand lift per channel? Without this, the model treats sale-event months as unexplained outliers and will systematically under-forecast every sale month.</div></div></div>
+    <p class="body">These are factual questions about business rules that only Foxtale can answer. No assumptions will be made. Every item below must be resolved before Week 3.</p>
+    <div class="query-list">
+      <div class="query-item"><div class="q-n">Q1</div><div><div class="q-title">Demand cycle dates</div><div class="q-body">What is the fixed open and close date each month? Can demand be revised after submission within the same cycle, and if so, how many revisions are allowed?</div></div></div>
+      <div class="query-item"><div class="q-n">Q2</div><div><div class="q-title">Variance threshold</div><div class="q-body">Is the alert threshold a single global figure (20%), or does it vary by ABC/XYZ tier? Is the AX threshold confirmed as 10%?</div></div></div>
+      <div class="query-item"><div class="q-n">Q3</div><div><div class="q-title">Approval chain</div><div class="q-body">Who is notified first — growth team or analytics? Who has authority to approve a demand change? What is the expected SLA in hours? Is Slack the agreed approval surface?</div></div></div>
+      <div class="query-item"><div class="q-n">Q4</div><div><div class="q-title">45-day rule flexibility</div><div class="q-body">Is the 45-day buffer fixed for all SKUs, or does it vary — e.g., sunscreen higher in March to May, quick commerce channels lower due to faster replenishment cycles?</div></div></div>
+      <div class="query-item"><div class="q-n">Q5</div><div><div class="q-title">B2B outright channels</div><div class="q-body">Are Nykaa B2B, Purplle, and Tira treated identically to B2C channels for primary demand derivation, or does the outright model change the formula?</div></div></div>
+      <div class="query-item"><div class="q-n">Q6</div><div><div class="q-title">SNOP date</div><div class="q-body">Is the S&OP review meeting on a fixed day each month? Who sets it? This is a critical variable in the M1 formula — determines consumption from SNOP to PO raise date.</div></div></div>
+      <div class="query-item"><div class="q-n">Q7</div><div><div class="q-title">Manufacturer lead times</div><div class="q-body">Is lead time currently tracked per manufacturer or not at all? A 60-day lead time effectively makes every M3 PO an M1. This determines which PO bucket each demand signal falls into.</div></div></div>
+      <div class="query-item"><div class="q-n">Q8</div><div><div class="q-title">Offline/GT submission</div><div class="q-body">Is Offline/GT demand submitted by the same growth team or by a separate sales team on a different cadence?</div></div></div>
+      <div class="query-item"><div class="q-n">Q9</div><div><div class="q-title">Marketing spend granularity</div><div class="q-body">Is daily or weekly spend data available from Meta Ads Manager, Google Ads, Amazon Ads Console? Monthly totals exist in Excel but daily/weekly granularity is needed for the model to learn demand-lag from spend spikes.</div></div></div>
+      <div class="query-item"><div class="q-n">Q10</div><div><div class="q-title">Sale event calendar</div><div class="q-body">Does a record exist of which months had major platform sale events (Amazon GIF, Flipkart BBD, Nykaa Pink Friday, Republic Day) and the approximate demand lift per channel? Without this, the model treats sale-event months as unexplained outliers and will systematically under-forecast every sale month.</div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════
      PART 6 — ROADMAP
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <div id="page-roadmap" class="page">
-  <div class="doc-page wide">
-    <div class="part-label">Part 6</div>
+  <div class="wrap-wide">
+    <span class="eyebrow">Part 06</span>
     <h1 class="h1">The <em>roadmap</em></h1>
-    <p class="lead">Phase 1 builds the demand intelligence layer. Phases 2 and 3 extend across the full supply chain. Every architectural decision in Phase 1 is designed to connect forward. Nothing will need to be rebuilt.</p>
+    <p class="lead">Phase 1 builds the demand intelligence layer. Phases 2 and 3 extend across the full supply chain. Every architectural decision in Phase 1 is designed to connect forward.</p>
 
+    <div class="h2"><span class="num">6.1</span>Three phases, each standalone</div>
     <table class="roadmap-table">
-      <tr><th style="width:140px">Phase</th><th style="width:220px">What we build</th><th>Features</th><th style="width:220px">Business outcome</th></tr>
+      <tr><th style="width:120px">Phase</th><th style="width:200px">What we build</th><th>Capabilities</th><th style="width:200px">Business outcome</th></tr>
       <tr>
-        <td style="vertical-align:middle">
-          <div style="font-family:var(--font-m);font-size:20px;font-weight:500;color:var(--teal)">Phase 1</div>
-          <div style="font-size:11px;color:var(--ink4);margin-top:3px">Months 1–3 · Build now</div>
-        </td>
-        <td style="font-weight:500;color:var(--ink)">Demand Planning + PO Automation</td>
-        <td>
-          <div style="display:flex;flex-wrap:wrap;gap:5px">
-            <span class="fb-tag">ML baseline demand input</span>
-            <span class="fb-tag">Pre-submission validation gates</span>
-            <span class="fb-tag">45-day primary demand calc</span>
-            <span class="fb-tag">Unicommerce inventory auto-sync</span>
-            <span class="fb-tag">M1/M2/M3 PO generation</span>
-            <span class="fb-tag">5-stage approval flow + Slack</span>
-            <span class="fb-tag">Full audit log 24-month</span>
-            <span class="fb-tag">M-1/M-2/M-3 variance dashboard</span>
-            <span class="fb-tag">ABC × XYZ SKU matrix</span>
-            <span class="fb-tag">AOP alignment check</span>
-            <span class="fb-tag">External context tags</span>
-          </div>
-        </td>
-        <td style="background:var(--teal-l);color:var(--teal);font-weight:500;font-size:13px">M1 PO rate &lt;2%. Zero unexplained forecast drops. SCM freed from Excel. POs auto-raised on Unicommerce.</td>
+        <td><div class="rt-phase" style="color:var(--ok)">P1</div><div style="font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.08em;margin-top:4px">Months 1–3 · Now</div></td>
+        <td style="font-weight:500;color:var(--ink-2)">Demand Planning + PO Automation</td>
+        <td>ML baseline demand input · Pre-submission gates · 45-day primary demand calc · Unicommerce inventory auto-sync · M1/M2/M3 PO generation · 5-stage approval flow · Full audit log · M-1/M-2/M-3 variance dashboard · ABC x XYZ matrix · AOP alignment · External context capture</td>
+        <td style="color:var(--ok);font-weight:500">M1 PO rate under 2%. Zero unexplained forecast drops. SCM freed from Excel. POs auto-raised on Unicommerce.</td>
       </tr>
       <tr>
-        <td style="vertical-align:middle">
-          <div style="font-family:var(--font-m);font-size:20px;font-weight:500;color:var(--amber)">Phase 2</div>
-          <div style="font-size:11px;color:var(--ink4);margin-top:3px">Months 4–6 · After P1 stable</div>
-        </td>
-        <td style="font-weight:500;color:var(--ink)">Vendor Intelligence + Warehouse Allocation</td>
-        <td>
-          <div style="display:flex;flex-wrap:wrap;gap:5px">
-            <span class="fb-tag">Multi-factor vendor scoring per PO</span>
-            <span class="fb-tag">Warehouse-level demand allocation</span>
-            <span class="fb-tag">DOH rebalancing between warehouses</span>
-            <span class="fb-tag">External signal inputs (BBD, GIS, outages)</span>
-            <span class="fb-tag">FTL transfer optimisation</span>
-          </div>
-        </td>
-        <td style="background:var(--amber-l);color:var(--amber);font-weight:500;font-size:13px">8–12% procurement cost reduction. Warehouse imbalance eliminated. Fear buffers replaced with data-driven rebalancing.</td>
+        <td><div class="rt-phase" style="color:var(--muted)">P2</div><div style="font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.08em;margin-top:4px">Months 4–6</div></td>
+        <td style="font-weight:500;color:var(--ink-2)">Vendor Intelligence + Warehouse Allocation</td>
+        <td>Multi-factor vendor scoring per PO · Warehouse-level demand allocation Mumbai/Gurgaon · DOH rebalancing triggers · External signal inputs (BBD, GIS, manufacturer outages) · FTL transfer optimisation</td>
+        <td style="color:var(--muted)">8–12% procurement cost reduction. Warehouse imbalance eliminated. Fear buffers replaced with data.</td>
       </tr>
       <tr>
-        <td style="vertical-align:middle">
-          <div style="font-family:var(--font-m);font-size:20px;font-weight:500;color:var(--ink4)">Phase 3</div>
-          <div style="font-size:11px;color:var(--ink4);margin-top:3px">Months 7–10 · Long term</div>
-        </td>
-        <td style="font-weight:500;color:var(--ink)">Manufacturing Scheduler + Full Dispatch Automation</td>
-        <td>
-          <div style="display:flex;flex-wrap:wrap;gap:5px">
-            <span class="fb-tag">BoM-driven production scheduling</span>
-            <span class="fb-tag">Manufacturer capacity integration</span>
-            <span class="fb-tag">Quality release gate tracking</span>
-            <span class="fb-tag">Full dispatch automation + FTL</span>
-            <span class="fb-tag">Direct manufacturer transfer triggers</span>
-          </div>
-        </td>
-        <td style="background:var(--canvas);color:var(--ink3);font-size:13px">Near-zero stockouts. Minimal manual intervention across the full supply chain loop.</td>
+        <td><div class="rt-phase" style="color:var(--muted-2)">P3</div><div style="font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.08em;margin-top:4px">Months 7–10</div></td>
+        <td style="font-weight:500;color:var(--ink-2)">Manufacturing Scheduler + Full Dispatch</td>
+        <td>BoM-driven production scheduling · Manufacturer capacity integration · Quality release gate tracking · Full dispatch automation with FTL · Direct manufacturer transfer triggers</td>
+        <td style="color:var(--muted)">Near-zero stockouts. Minimal manual intervention across the full supply chain loop.</td>
       </tr>
     </table>
 
-    <div class="h2"><span class="num">6.1</span>ML model selection — technical reference</div>
-    <p class="body" style="margin-bottom:12px">How the baseline forecast is produced per SKU tier. For reference — Foxtale does not need to approve the model architecture, only the output.</p>
+    <div class="h2"><span class="num">6.2</span>ML model selection — technical reference</div>
+    <p class="body" style="margin-bottom:16px">How the baseline forecast is produced per SKU tier. Foxtale does not need to approve the model architecture — only the output it produces.</p>
     <table class="ml-table">
       <tr><th>Tier</th><th>SKU type</th><th>Model</th><th>Key features</th><th>Output</th><th>Automation</th><th>Human role</th></tr>
-      <tr><td style="font-weight:600;color:var(--teal);font-family:var(--font-m)">AZ</td><td>High rev, predictable</td><td>ETS / Prophet</td><td>Trend, seasonality, YoY</td><td>Point forecast</td><td><span class="auto-val">~85%</span></td><td>Accept or flag anomaly</td></tr>
-      <tr><td style="font-weight:600;color:var(--amber);font-family:var(--font-m)">BZ/AY</td><td>Mid-tier, moderate</td><td>Prophet + regressors</td><td>Trend, spend, season</td><td>Point forecast</td><td><span class="auto-val">~75%</span></td><td>Spot check, accept most</td></tr>
-      <tr><td style="font-weight:600;color:var(--red);font-family:var(--font-m)">AX</td><td>High rev, volatile</td><td>Prophet + XGBoost</td><td>Spend, events, lag, season</td><td>Low/Base/High range</td><td><span class="auto-val">~60%</span></td><td>Pick from range or override</td></tr>
-      <tr><td style="font-weight:600;color:var(--amber);font-family:var(--font-m)">BX/BY</td><td>Mid, volatile</td><td>XGBoost</td><td>Lag sales, spend, events</td><td>Range forecast</td><td><span class="auto-val">~55%</span></td><td>Review and confirm range</td></tr>
-      <tr><td style="font-weight:600;color:var(--ink4);font-family:var(--font-m)">CX</td><td>New launch</td><td>Analogue lookup</td><td>Category + channel + price band</td><td>Indicative ramp</td><td><span class="auto-val">~10%</span></td><td>Human leads</td></tr>
-      <tr><td style="font-weight:600;color:var(--teal);font-family:var(--font-m)">CY/CZ</td><td>Low, stable</td><td>Moving average</td><td>3-month rolling</td><td>Point forecast</td><td><span class="auto-val">~80%</span></td><td>Auto-accept default</td></tr>
+      <tr><td class="ml-tier">AZ</td><td>High rev, predictable</td><td>ETS / Prophet</td><td>Trend, seasonality, YoY</td><td>Point forecast</td><td class="ml-auto">~85%</td><td>Accept or flag anomaly</td></tr>
+      <tr><td class="ml-tier">BZ/AY</td><td>Mid-tier, moderate</td><td>Prophet + regressors</td><td>Trend, spend, season</td><td>Point forecast</td><td class="ml-auto">~75%</td><td>Spot check, accept most</td></tr>
+      <tr><td class="ml-tier">AX</td><td>High rev, volatile</td><td>Prophet + XGBoost</td><td>Spend, events, lag, season</td><td>Low/Base/High range</td><td class="ml-auto">~60%</td><td>Pick from range or override</td></tr>
+      <tr><td class="ml-tier">BX/BY</td><td>Mid, volatile</td><td>XGBoost</td><td>Lag sales, spend, events</td><td>Range forecast</td><td class="ml-auto">~55%</td><td>Review and confirm range</td></tr>
+      <tr><td class="ml-tier">CX</td><td>New launch</td><td>Analogue lookup</td><td>Category + channel + price band</td><td>Indicative ramp</td><td class="ml-auto">~10%</td><td>Human leads</td></tr>
+      <tr><td class="ml-tier">CY/CZ</td><td>Low, stable</td><td>Moving average</td><td>3-month rolling</td><td>Point forecast</td><td class="ml-auto">~80%</td><td>Auto-accept default</td></tr>
     </table>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PART 7 — WHAT WE NEED
-═══════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     PART 7 — TO BEGIN
+══════════════════════════════════════════ -->
 <div id="page-start" class="page">
-  <div class="doc-page">
-    <div class="part-label">Part 7</div>
+  <div class="wrap">
+    <span class="eyebrow">Part 07</span>
     <h1 class="h1">What we need <em>to begin</em></h1>
     <p class="lead">DevX AI Labs is responsible for the full design, engineering, and delivery. The following are not requests for engineering resources — they are data access, confirmed business rules, and domain knowledge that only Foxtale can provide.</p>
 
     <div class="h2"><span class="num">7.1</span>Six asks from Foxtale</div>
-    <table class="info-table">
-      <tr>
-        <td class="it-label" style="color:var(--red);background:var(--red-l)">Unicommerce API access</td>
-        <td class="it-val" style="background:var(--red-l)">Read access for: daily closing inventory per location, PO module data (for Open PO auto-sync), GRN data feed, in-transit movement data. <strong>Highest-priority dependency. Required by end of Week 2.</strong></td>
-      </tr>
-      <tr>
-        <td class="it-label">Working demand model files</td>
-        <td class="it-val">Formula-intact Excel files for one complete demand cycle — not values-only exports. Required to audit every formula, validate channel rules, and match platform output to Excel output within 0.1% before go-live.</td>
-      </tr>
-      <tr>
-        <td class="it-label">Answers to 10 open queries</td>
-        <td class="it-val">Section 5.2 of this document. These define the PO formula variables and the approval chain logic. Required before Week 3. Cannot be assumed or approximated.</td>
-      </tr>
-      <tr>
-        <td class="it-label">2 hours/week for 12 weeks</td>
-        <td class="it-val">From the supply chain team and analytics team. Weekly iteration reviews to validate formula outputs, catch edge cases, and sign off on each sprint deliverable. This is the domain knowledge transfer that makes the platform accurate.</td>
-      </tr>
-      <tr>
-        <td class="it-label">AOP targets file</td>
-        <td class="it-val">Monthly GMV targets by channel for the current financial year. Finance team upload. Required by Week 6 for the AOP alignment module.</td>
-      </tr>
-      <tr>
-        <td class="it-label">A firm cutoff date</td>
-        <td class="it-val">The date after which Operations will no longer accept demand submissions made outside the platform. Without this date, the platform and Excel will run in parallel indefinitely, and adoption will fail.</td>
-      </tr>
+    <table class="doc-table">
+      <tr><td class="td-label" style="color:var(--warn)">Unicommerce API access</td><td style="color:var(--warn)">Read access for: daily closing inventory per location, PO module data (for Open PO auto-sync), GRN data feed, in-transit movement data. <strong style="color:var(--warn)">Highest-priority dependency. Required by end of Week 2.</strong></td></tr>
+      <tr><td class="td-label">Working demand model files</td><td>Formula-intact Excel files for one complete demand cycle — not values-only exports. Required to audit every formula, validate channel rules, and match platform output within 0.1% before go-live.</td></tr>
+      <tr><td class="td-label">Answers to open queries</td><td>Q1 through Q10 in Part 5 of this document. Define the PO formula variables and the approval chain logic. Required before Week 3. Cannot be assumed or approximated.</td></tr>
+      <tr><td class="td-label">Two hours per week</td><td>From the supply chain and analytics teams. Weekly iteration reviews to validate formula outputs, catch edge cases, and sign off on each sprint deliverable for 12 weeks. This is the domain knowledge transfer that makes the platform accurate.</td></tr>
+      <tr><td class="td-label">AOP targets file</td><td>Monthly GMV targets by channel for the current financial year. Finance team upload. Required by Week 6 for the AOP alignment module.</td></tr>
+      <tr><td class="td-label">A firm cutoff date</td><td>The date after which Operations will no longer accept demand submissions made outside the platform. Without this date, the platform and Excel will run in parallel indefinitely, and adoption will fail.</td></tr>
     </table>
 
-    <div class="closing-statement">
-      <div class="cs-text">"The platform is not the hard part. The hard part is getting the first demand cycle right — every formula validated, every edge case handled, every team trusting the output more than the spreadsheet. That is what the first twelve weeks are for."</div>
-      <div class="cs-attr">Prepared by DevX AI Labs · For Foxtale Skincare · Phase 1 · May 2026 · Confidential working document</div>
+    <div class="inversion" style="margin-top:48px">
+      <div class="inversion-text">"The platform is not the hard part. The hard part is getting the first demand cycle right — every formula validated, every edge case handled, every team trusting the <span>output</span> more than the spreadsheet. That is what the first twelve weeks are for."</div>
+      <div class="inversion-attr">Prepared by DevX AI Labs &nbsp;&middot;&nbsp; For Foxtale Skincare &nbsp;&middot;&nbsp; Phase 1 &nbsp;&middot;&nbsp; May 2026 &nbsp;&middot;&nbsp; Confidential</div>
     </div>
   </div>
 </div>
@@ -1003,32 +1160,27 @@ ul.doc-list li::before{content:'—';position:absolute;left:0;color:var(--rule2)
 </main>
 
 <script>
-// Navigation
 function show(id, tabEl) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   const pg = document.getElementById('page-' + id);
   if (pg) pg.classList.add('active');
   if (tabEl) tabEl.classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-// Progress bar
 window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const top = doc.scrollTop || document.body.scrollTop;
-  const height = doc.scrollHeight - doc.clientHeight;
-  const pct = height > 0 ? (top / height * 100) : 0;
-  document.getElementById('progress').style.width = pct + '%';
+  const el = document.documentElement;
+  const pct = (el.scrollTop || document.body.scrollTop) / (el.scrollHeight - el.clientHeight) * 100;
+  document.getElementById('prog').style.width = (pct || 0) + '%';
 });
 
-// Keyboard nav
 document.addEventListener('keydown', e => {
   const tabs = document.querySelectorAll('.nav-tab');
   const active = document.querySelector('.nav-tab.active');
   const idx = Array.from(tabs).indexOf(active);
-  if (e.key === 'ArrowRight' && idx < tabs.length - 1) tabs[idx+1].click();
-  if (e.key === 'ArrowLeft' && idx > 0) tabs[idx-1].click();
+  if (e.key === 'ArrowRight' && idx < tabs.length - 1) tabs[idx + 1].click();
+  if (e.key === 'ArrowLeft' && idx > 0) tabs[idx - 1].click();
 });
 </script>
 </body>
